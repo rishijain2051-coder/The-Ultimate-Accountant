@@ -1,0 +1,31 @@
+{
+  "brand": "Ultimate Accountant",
+  "tagline": "Bills into Tally, and books that tie: Assurance Console and Invoice Bridge, on one computer",
+  "brief": "The house the two apps live in: one program for a small Indian business's books - its bills and bank statements posted into Tally, and the month checked against GSTR-2B, the bank and its parties. For the owner as much as the accountant: plain words, nothing uploaded. A sibling of Assurance Console's maroon and Invoice Bridge's ink, in the gold both share.",
+  "adjectives": ["final", "exact", "plain", "Indian"],
+  "criteria": "Success: says finality without a tick, a shield or a rupee sign; clear at 16 px; one colour; at home beside the two marks it holds.",
+  "mockups": ["app-icon", "favicon-tab", "website", "business-card", "social", "sticker"],
+  "nav": ["Assurance Console", "Invoice Bridge"],
+  "brand_color": "#E9C46A",
+  "greyscale": false,
+  "designer": "Draveta",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Nothing More",
+      "symbol": "ultimate-accountant-symbol.svg",
+      "lockup": "ultimate-accountant-horizontal.svg",
+      "symbol_on_tile": "ultimate-accountant-symbol-small.svg",
+      "lockup_on_dark": "ultimate-accountant-horizontal-reversed.svg",
+      "tile_color": "#E9C46A",
+      "idea": "/- : what is written after an amount so that nothing can be added to it. The last word on a figure.",
+      "rationale": [
+        "Every Indian bill and cheque ends its amount with it: the figure is final, as the books should be",
+        "A 60 degree slash and a bar, flat ends - the family's vocabulary - and it half-reads as an A",
+        "The gold Assurance Console and Invoice Bridge share, as the ground both live on, with their ink"
+      ]
+    }
+  ],
+  "recommendation": "Nothing More - chosen. Ink on light, gold on dark, ink on the gold tile; a heavier small cut for 16-48 px.",
+  "next_steps": ["Use the files in brand/ultimate-accountant/", "The full installer carries the new Windows icon", "Trademark search before wider use"]
+}

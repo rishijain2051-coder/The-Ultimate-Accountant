@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Keeper</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Keeper">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="/books.css">
+<script type="module" src="/books.js"></script>
+</head><body class="books">
+<header class="top">
+  <a class="brand" href="#summary"><img src="/favicon.svg" alt="">Keeper</a>
+  <label class="picker" id="picker" hidden><span id="company-name"></span>
+    <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <select id="company" aria-label="Company"></select></label>
+  <a class="bell" id="bell" href="#alerts" aria-label="Alerts" hidden></a>
+</header>
+<div class="frame">
+  <nav class="nav" id="tabs" aria-label="Keeper"></nav>
+  <main class="content">
+    <p id="state" class="fresh"></p>
+    <section id="view" aria-live="polite"></section>
+  </main>
+  <aside class="keys" id="keys" aria-label="Keyboard"></aside>
+</div>
+</body></html>

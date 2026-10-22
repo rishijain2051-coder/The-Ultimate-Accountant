@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assurance Console</title>
+<meta name="description" content="Check your books against GSTR-2B, the bank statement and a party's statement, and keep every export invoice's documents, refund, payment and eBRC in one register.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script>try { if (sessionStorage.getItem('ac-launched') && !/[?&]opening\b/.test(location.search)) document.documentElement.classList.add('launched'); } catch {}</script>
+</head>
+<body>
+
+<div class="launch" id="launch" aria-hidden="true">
+  <div class="launch-field"></div>
+  <div class="launch-glow"></div>
+  <div class="launch-lines"></div>
+  <div class="launch-margin"></div>
+  <div class="launch-rule r1"></div><div class="launch-rule r2"></div>
+  <div class="wordmark launch-lockup"><span class="launch-mark"><svg class="lm lm-top" viewBox="0 30 256 190"><path fill="currentColor" d="M35.5 60 H159.5 V90 H35.5 Z"/></svg><svg class="lm lm-low" viewBox="0 30 256 190"><path fill="currentColor" d="M35.5 126 H113.5 L135.5 148 L135.5 190 L101.5 156 H35.5 Z"/></svg><svg class="lm lm-tick" viewBox="0 30 256 190"><path fill="currentColor" d="M135.5 148 L199.5 84 L220.5 105 L135.5 190 Z"/></svg><span class="lm-shine"><span></span></span></span><span class="launch-name">Assurance Console</span></div>
+  <p class="launch-note">Getting your books ready</p>
+</div>
+
+<a class="skip" href="#main">Skip to the page</a>
+
+<header class="cover">
+  <a class="wordmark" href="#/" data-act="start-new"><svg class="mark" viewBox="0 30 256 190" aria-hidden="true"><path fill="currentColor" d="M35.5 60 H159.5 V90 H35.5 Z M35.5 126 H113.5 L135.5 148 L199.5 84 L220.5 105 L135.5 190 L101.5 156 H35.5 Z"/></svg>Assurance Console</a>
+  <nav class="modules" aria-label="Modules">
+    <a href="#/" data-module="reconcile">Reconciliation</a>
+    <a href="#/exports" data-module="exports">Exports</a>
+  </nav>
+  <button class="run-switch" id="runSwitch" type="button" popovertarget="runMenu" hidden>
+    <span id="runName"></span>
+    <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 9.5l5.5 5.5 5.5-5.5"/></svg>
+  </button>
+  <div class="run-menu" id="runMenu" popover></div>
+  <nav class="cover-nav" aria-label="The app">
+    <a class="update-ready" id="updateReady" href="#/settings" hidden>Update ready</a>
+    <!-- Ultimate Accountant's other module, through its own opening (app/home.html). -->
+    <a href="/bridge/opening.html"><span class="wide">Switch to Invoice Bridge</span><span class="narrow">Invoice Bridge</span></a>
+    <a href="#/settings">Settings</a>
+    <a class="gold" id="goldAct" href="#/" data-act="start-new"><span class="wide">Start a new check</span><span class="narrow">New check</span></a>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<footer class="maker"><a href="https://draveta.vercel.app" target="_blank" rel="noopener">Developed by Draveta<span class="sr">, opens in your browser</span></a></footer>
+
+<div class="working" id="working" hidden>
+  <div class="working-card" role="status" aria-live="polite">
+    <h2 id="workingTitle">Reading your files</h2>
+    <ol id="workingSteps">
+      <li>Reading your files</li>
+      <li>Matching the entries</li>
+      <li>Writing down why each open entry is open</li>
+    </ol>
+  </div>
+</div>
+
+<div class="working" id="closed" hidden>
+  <div class="working-card">
+    <h2>The app is closed</h2>
+    <p>Everything was saved as you went. You can close this tab now.</p>
+    <p class="quiet">To open it again, use the Ultimate Accountant shortcut on the desktop or in the Start menu.</p>
+  </div>
+</div>
+
+<dialog class="modal settle" id="settle" aria-labelledby="settleTitle"></dialog>
+<dialog class="modal doc-edit" id="docEdit" aria-labelledby="docEditTitle"></dialog>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="js/launch.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

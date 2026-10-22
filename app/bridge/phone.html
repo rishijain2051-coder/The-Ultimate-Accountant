@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Send bills · Ultimate Accountant</title>
+<!-- Served by services/phone.py to a phone on the same Wi-Fi. One file, no
+     framework: it has to open quickly on any phone. Its colours are the
+     app's own (frontend/app/globals.css). -->
+<style>
+@font-face { font-family: "Geist"; src: url("/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+:root {
+  color-scheme: light dark;
+  --bg: #f7f6f3; --panel: #fff; --edge: #eaeaea; --edge-strong: #d8d7d3;
+  --ink: #2f3437; --ink-strong: #111; --muted: #62615d;
+  --primary: #111; --on-primary: #fff; --neutral-soft: #efeeea;
+  --good: #346538; --good-soft: #edf3ec; --bad: #9f2f2d; --bad-soft: #fdebec; --info: #1f6c9f; --info-soft: #e1f3fe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191919; --panel: #202020; --edge: #2f2f2e; --edge-strong: #403f3d;
+    --ink: #d9d8d5; --ink-strong: #f2f1ee; --muted: #a5a4a0;
+    --primary: #f2f1ee; --on-primary: #111; --neutral-soft: #2e2e2d;
+    --good: #7dbe88; --good-soft: #1e2f22; --bad: #ee8c82; --bad-soft: #3a2220; --info: #7eb6e3; --info-soft: #1b2c3a;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 "Geist", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased;
+}
+main { max-width: 480px; margin: 0 auto; padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--edge); }
+.wordmark { font: 500 17px/1.1 "Newsreader", Georgia, serif; letter-spacing: -0.02em; color: var(--ink-strong); }
+.title { margin: 28px 0 8px; font: 500 32px/1.1 "Newsreader", Georgia, serif; letter-spacing: -0.03em; color: var(--ink-strong); }
+.heading { margin: 28px 0 4px; font: 500 20px/1.2 "Newsreader", Georgia, serif; letter-spacing: -0.02em; color: var(--ink-strong); }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.stack { display: grid; gap: 10px; margin-top: 24px; }
+.btn {
+  appearance: none; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  min-height: 52px; padding: 12px 16px; border: 1px solid var(--edge-strong); border-radius: 8px;
+  background: var(--panel); color: var(--ink-strong); font-family: inherit; font-size: 16px; font-weight: 500;
+  -webkit-tap-highlight-color: transparent; transition: transform 100ms;
+}
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--muted); min-height: 44px; }
+svg.icon { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.vh { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.pages { display: flex; gap: 10px; overflow-x: auto; margin: 20px -16px 0; padding: 4px 16px; scrollbar-width: none; }
+.page, .add { flex: 0 0 auto; width: 104px; height: 138px; border-radius: 8px; }
+.page { position: relative; overflow: hidden; border: 1px solid var(--edge); background: var(--panel); }
+.page img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.page .no { position: absolute; left: 6px; bottom: 6px; padding: 0 7px; border-radius: 9999px; background: rgba(17,17,17,0.72); color: #fff; font-size: 11px; font-weight: 600; line-height: 18px; }
+.page .x { position: absolute; top: 4px; right: 4px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 9999px; background: rgba(17,17,17,0.72); color: #fff; }
+.page .x svg { width: 16px; height: 16px; }
+.add {
+  display: grid; place-content: center; justify-items: center; gap: 6px; border: 1px dashed var(--edge-strong);
+  background: transparent; color: var(--muted); font-family: inherit; font-size: 13px;
+}
+.group { margin-top: 16px; }
+.group > p { margin-bottom: 8px; font-size: 13px; color: var(--muted); }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.option {
+  appearance: none; min-height: 52px; padding: 10px 12px; text-align: left; border: 1px solid var(--edge);
+  border-radius: 10px; background: var(--panel); color: var(--ink-strong); font-family: inherit; font-size: 15px; font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
+}
+.option small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
+.option[aria-pressed="true"] { border-color: var(--ink-strong); box-shadow: inset 0 0 0 1px var(--ink-strong); }
+.actions { position: sticky; bottom: 0; display: grid; gap: 4px; margin: 24px -16px 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--edge); }
+.bar { height: 4px; margin-bottom: 8px; border-radius: 9999px; background: var(--neutral-soft); overflow: hidden; }
+.bar span { display: block; width: 0; height: 100%; background: var(--ink-strong); transition: width 200ms; }
+.note { margin-top: 16px; padding: 12px 14px; border-radius: 8px; font-size: 14px; background: var(--bad-soft); }
+.chip {
+  display: inline-flex; align-items: center; padding: 0 8px; border-radius: 9999px; background: var(--neutral-soft); color: var(--muted);
+  font-size: 10.5px; font-weight: 600; line-height: 18px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;
+}
+.chip-good { background: var(--good-soft); color: var(--good); }
+.chip-bad { background: var(--bad-soft); color: var(--bad); }
+.chip-info { background: var(--info-soft); color: var(--info); }
+.sent { margin: 12px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--edge); }
+.sent li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--edge); }
+.sent b { display: block; font-weight: 500; color: var(--ink-strong); }
+.sent span.when { font-size: 12.5px; color: var(--muted); }
+.toast {
+  position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); max-width: 448px; margin: 0 auto;
+  padding: 12px 14px; border-radius: 10px; background: var(--primary); color: var(--on-primary); font-size: 14px;
+  opacity: 0; transform: translateY(16px); transition: opacity 250ms, transform 350ms cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;
+}
+.toast.show { opacity: 1; transform: none; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+section:not([hidden]) { animation: rise 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="wordmark">Ultimate Accountant</span>
+    <span class="chip" id="count" hidden></span>
+  </header>
+
+  <section id="start">
+    <h1 class="title">Photograph a bill</h1>
+    <p class="muted">It goes straight to the app on your computer, is read there, and waits in Review for you.</p>
+    <div class="stack">
+      <button class="btn btn-primary" id="take">
+        <svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 5.5h2l1.2-2h4.6l1.2 2h2a1 1 0 011 1v6a1 1 0 01-1 1h-11a1 1 0 01-1-1v-6a1 1 0 011-1z"/><circle cx="8" cy="9" r="2.3"/></svg>
+        Take a photo
+      </button>
+      <button class="btn" id="pick">Choose from photos</button>
+    </div>
+    <p class="note" id="ended" hidden></p>
+  </section>
+
+  <section id="bill" hidden>
+    <div class="pages" id="pages"></div>
+    <h1 class="heading">What is it?</h1>
+    <p class="muted">This decides the voucher it becomes in Tally.</p>
+    <div id="types"></div>
+    <p class="note" id="error" hidden></p>
+    <div class="actions">
+      <div class="bar" id="bar" hidden><span></span></div>
+      <button class="btn btn-primary" id="send">Send to the computer</button>
+      <button class="btn btn-ghost" id="discard">Discard</button>
+    </div>
+  </section>
+
+  <section id="history" hidden>
+    <h2 class="heading">Sent from this phone</h2>
+    <ul class="sent" id="sent"></ul>
+  </section>
+
+  <input type="file" accept="image/*" capture="environment" id="camera" class="vh" tabindex="-1" aria-hidden="true">
+  <input type="file" accept="image/*" id="gallery" class="vh" tabindex="-1" aria-hidden="true">
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+<script>
+const TYPES = __TYPES__;
+const GROUPS = [
+  ["Bills", ["Purchase", "Sales", "Debit Note", "Credit Note"]],
+  ["Bank & cash", ["Payment", "Receipt", "Contra"]],
+  ["Adjustments", ["Journal"]],
+  ["Orders & notes", ["Purchase Order", "Sales Order", "Receipt Note", "Delivery Note"]],
+];
+const $ = (id) => document.getElementById(id);
+const base = location.pathname.replace(/\/$/, "");
+let pages = [];   // { url } as JPEG data URLs, in page order
+let chosen = null;
+let busy = false;
+
+const remembered = () => { try { return localStorage.getItem("tib-type"); } catch { return null; } };
+const remember = (name) => { try { localStorage.setItem("tib-type", name); } catch { /* private mode */ } };
+
+// A photo as a JPEG of at most 4000 px on its long side: the OCR found a
+// bill's number at that size and missed it at 3000. Drawing it also turns
+// it the right way up, as the phone's camera held it.
+async function shrink(file) {
+  const src = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    img.src = src;
+    await img.decode();
+    const k = Math.min(1, 4000 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * k);
+    c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL("image/jpeg", 0.88);
+  } finally {
+    URL.revokeObjectURL(src);
+  }
+}
+
+function show(which) {
+  for (const id of ["start", "bill"]) $(id).hidden = id !== which;
+  window.scrollTo(0, 0);
+}
+
+function renderPages() {
+  const box = $("pages");
+  box.replaceChildren();
+  pages.forEach((p, i) => {
+    const d = document.createElement("div");
+    d.className = "page";
+    d.innerHTML = `<img alt="Page ${i + 1}"><span class="no">${i + 1}</span>` +
+      `<button class="x" aria-label="Remove page ${i + 1}"><svg class="icon" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>`;
+    d.querySelector("img").src = p.url;
+    d.querySelector("button").onclick = () => {
+      pages.splice(i, 1);
+      if (pages.length) renderPages(); else show("start");
+    };
+    box.append(d);
+  });
+  const add = document.createElement("button");
+  add.className = "add";
+  add.innerHTML = `<svg class="icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>Add a page`;
+  add.onclick = () => $("camera").click();
+  box.append(add);
+}
+
+function renderTypes() {
+  const box = $("types");
+  box.replaceChildren();
+  const last = remembered();
+  chosen = TYPES.find((t) => t.name === last) ?? TYPES.find((t) => t.name === "Purchase") ?? TYPES[0] ?? null;
+  for (const [title, parents] of GROUPS) {
+    const items = TYPES.filter((t) => parents.includes(t.parent));
+    if (!items.length) continue;
+    const g = document.createElement("div");
+    g.className = "group";
+    g.innerHTML = `<p></p><div class="options"></div>`;
+    g.querySelector("p").textContent = title;
+    for (const t of items) {
+      const b = document.createElement("button");
+      b.className = "option";
+      b.textContent = t.name;
+      if (t.custom) {
+        const s = document.createElement("small");
+        s.textContent = `works like ${t.parent}`;
+        b.append(s);
+      }
+      b.setAttribute("aria-pressed", String(t === chosen));
+      b.onclick = () => {
+        chosen = t;
+        box.querySelectorAll(".option").forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+      };
+      g.querySelector(".options").append(b);
+    }
+    box.append(g);
+  }
+}
+
+async function addPhoto(input) {
+  const file = input.files && input.files[0];
+  input.value = "";
+  if (!file) return;
+  let url;
+  try { url = await shrink(file); } catch { toast("That photo could not be opened. Take it again."); return; }
+  pages.push({ url });
+  if (pages.length === 1) { renderTypes(); $("error").hidden = true; }
+  renderPages();
+  show("bill");
+}
+
+function ended(message) {
+  $("ended").textContent = message;
+  $("ended").hidden = false;
+  $("take").disabled = $("pick").disabled = true;
+  pages = [];
+  show("start");
+}
+
+function send() {
+  if (busy || !pages.length || !chosen) return;
+  busy = true;
+  $("send").disabled = true;
+  $("send").textContent = "Sending…";
+  $("bar").hidden = false;
+  $("error").hidden = true;
+  const bar = $("bar").firstElementChild;
+  bar.style.width = "0";
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", `${base}/send`);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.upload.onprogress = (e) => { if (e.lengthComputable) bar.style.width = `${Math.round((e.loaded / e.total) * 100)}%`; };
+  const finish = () => { busy = false; $("send").disabled = false; $("send").textContent = "Send to the computer"; $("bar").hidden = true; };
+  xhr.onload = () => {
+    finish();
+    let r = {};
+    try { r = JSON.parse(xhr.responseText); } catch { /* not JSON: the status says it */ }
+    if (xhr.status === 200) {
+      remember(chosen.name);
+      toast(`Sent: ${chosen.name}${pages.length > 1 ? `, ${pages.length} pages` : ""}. Next bill.`);
+      pages = [];
+      show("start");
+      refresh();
+    } else if (xhr.status === 410) {
+      ended(r.error || "This code has ended. Show a new one on the computer and scan it again.");
+    } else {
+      fail(r.error || `The computer answered ${xhr.status}. Try again.`);
+    }
+  };
+  xhr.onerror = () => { finish(); fail("Could not reach the computer. Is this phone on the same Wi-Fi as it, and the app open? Then try again."); };
+  xhr.send(JSON.stringify({ type: chosen.name, pages: pages.map((p) => p.url.split(",")[1]) }));
+}
+
+function fail(message) {
+  $("error").textContent = message;
+  $("error").hidden = false;
+}
+
+let toastTimer;
+function toast(message) {
+  const t = $("toast");
+  t.textContent = message;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+}
+
+const STATES = { reading: ["chip-info", "Reading"], ready: ["chip-good", "Ready"], failed: ["chip-bad", "Not read"], "set aside": ["", "Set aside"] };
+let polling;
+async function refresh() {
+  let list;
+  try {
+    const res = await fetch(`${base}/sent`, { cache: "no-store" });
+    if (res.status === 410) return ended("This code has ended. Show a new one on the computer and scan it again.");
+    list = await res.json();
+  } catch { return; }
+  $("history").hidden = !list.length;
+  $("count").hidden = !list.length;
+  $("count").textContent = `${list.length} sent`;
+  const ul = $("sent");
+  ul.replaceChildren();
+  for (const s of list) {
+    const li = document.createElement("li");
+    const [tone, word] = STATES[s.state] ?? ["", s.state];
+    li.innerHTML = `<div><b></b><span class="when"></span></div><span class="chip ${tone}"></span>`;
+    li.querySelector("b").textContent = s.type ?? "Bill";
+    li.querySelector(".when").textContent = s.state === "failed" && s.error ? s.error : (s.at ?? "");
+    li.querySelector(".chip").textContent = word;
+    ul.append(li);
+  }
+  clearTimeout(polling);
+  if (list.some((s) => s.state === "reading")) polling = setTimeout(refresh, 4000);
+}
+
+$("take").onclick = () => $("camera").click();
+$("pick").onclick = () => $("gallery").click();
+$("camera").onchange = (e) => addPhoto(e.target);
+$("gallery").onchange = (e) => addPhoto(e.target);
+$("send").onclick = send;
+$("discard").onclick = () => { pages = []; show("start"); };
+refresh();
+</script>
+</body>
+</html>

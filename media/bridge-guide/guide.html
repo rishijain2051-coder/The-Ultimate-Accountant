@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Invoice Bridge - Guide</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", "Nirmala UI", sans-serif; font-size: 10.5pt; line-height: 1.5; color: #1d2330; margin: 0; }
+  h1 { font-size: 26pt; margin: 0 0 4mm; color: #1d2330; }
+  h2 { font-size: 15pt; color: #1c5fd4; margin: 8mm 0 2mm; break-after: avoid; }
+  h3 { font-size: 11.5pt; margin: 5mm 0 1mm; break-after: avoid; }
+  p, li { margin: 0 0 2mm; }
+  ul, ol { padding-left: 6mm; margin: 0 0 3mm; }
+  .new { break-before: page; }
+  .cover { height: 250mm; display: flex; flex-direction: column; justify-content: center; }
+  .logo { display: block; width: 22mm; height: 22mm; margin-bottom: 8mm; }
+  .lead { font-size: 13pt; color: #5d6576; max-width: 150mm; }
+  .meta { margin-top: 12mm; color: #5d6576; font-size: 9.5pt; }
+  img { width: 100%; border: 1px solid #d5d9e2; border-radius: 2mm; margin: 2mm 0 1mm; break-inside: avoid; }
+  .cap { font-size: 9pt; color: #5d6576; margin-bottom: 4mm; }
+  table { border-collapse: collapse; width: 100%; margin: 2mm 0 4mm; font-size: 9.8pt; break-inside: avoid; }
+  th, td { border: 1px solid #d5d9e2; padding: 1.6mm 2.2mm; text-align: left; vertical-align: top; }
+  th { background: #f1f4f9; }
+  .box { border-left: 3px solid #1c5fd4; background: #f1f5fd; padding: 3mm 4mm; margin: 3mm 0 4mm; break-inside: avoid; }
+  .warn { border-left-color: #c77d0a; background: #fdf6ea; }
+  .amber { background: #fdf0d8; border: 1px solid #e3a33b; padding: 0 1.5mm; border-radius: 1mm; }
+  kbd, code { font-family: Consolas, monospace; font-size: 9.5pt; background: #f1f4f9; padding: 0 1mm; border-radius: 1mm; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <svg class="logo" viewBox="0 0 256 256" role="img" aria-label="Invoice Bridge">
+    <rect width="256" height="256" rx="57.6" fill="#1C1E23"/><g fill="#E9C46A" transform="translate(30.33 25.33) scale(0.76308)">
+    <path d="M60 24 H92 V90.67 A38 38 0 0 0 92 161.33 V232 H60 A28 28 0 0 1 32 204 V52 A28 28 0 0 1 60 24 Z"/>
+    <path d="M120 24 H196 A28 28 0 0 1 224 52 V204 A28 28 0 0 1 196 232 H120 V161.33 A38 38 0 0 0 120 90.67 Z"/></g></svg>
+  <h1>Invoice Bridge</h1>
+  <p class="lead">Upload a bill, say what kind of entry it is, check what the app read side by side with the
+    bill itself, and post it to TallyPrime with one click. It reads printed and handwritten bills, in English
+    and in Hindi, and everything runs on this computer.</p>
+  <p class="meta">Guide for version 1.0.0</p>
+</section>
+
+<section class="new">
+<h2>What it does, and what it never does</h2>
+<ol>
+  <li><b>You add a bill</b>: a PDF, a scan or a photo from your phone, one or a batch.</li>
+  <li><b>You say what it is</b>: Purchase, Sales, Payment, Receipt, Contra, Journal, Debit or Credit Note,
+    or any voucher type of your own in Tally.</li>
+  <li><b>You review it side by side</b>: the bill on the left; on the right, what the app read, the exact
+    entry it will make in Tally, a search for duplicates in Tally, and the arithmetic and GST checks.</li>
+  <li><b>You post it</b> to Tally, save it there as a draft, or export it as a file - only when you say so.</li>
+</ol>
+<div class="box">
+  <b>Nothing leaves this computer.</b> The app, its database, the text reader (OCR) and the AI reader all
+  run here. It uses the internet only to download the AI reader while it is installed, and to check for
+  updates.
+</div>
+<div class="box">
+  <b>The AI only reads.</b> It copies what is written on the bill, exactly as written, including handwriting
+  and Hindi, and reads each scan a second time to check the text reader. It does not chat, translate,
+  calculate, guess, choose ledgers or tax, judge duplicates, or post anything. Every value it read is shown
+  <span class="amber">in amber</span> for you to confirm.
+</div>
+<div class="box warn">
+  <b>Nothing is posted to Tally without you.</b> Posting is off until you switch it on in Settings, and even
+  then each entry is posted only when you press the button.
+</div>
+
+<h2>Installing</h2>
+<ol>
+  <li>Run <code>Install.exe</code>. If you received it zipped instead, unzip it first. Windows may warn that the program is not recognised, because it is not code-signed:
+    choose <i>More info</i>, then <i>Run anyway</i>.</li>
+  <li><b>Choose where to install it.</b> Any folder you can write to works, for example <code>D:\Apps</code>
+    on another drive. It needs about 8 GB free. A folder that needs administrator rights, such as
+    <code>C:\Program Files</code>, is refused with a message rather than failing half way through.</li>
+  <li>Keep the desktop shortcut if you want one.</li>
+  <li><b>It downloads the AI reader</b> (about 5 GB, the first time only) in a window that shows the progress,
+    then it can start the app. If the internet drops, the app still works without the AI: run
+    <code>Install.exe</code> again later and the download continues where it stopped.</li>
+</ol>
+<p>It installs everything it needs - its own Python, the text reader, the AI runtime and the AI model - so the
+  computer needs nothing else. It is listed in <i>Add/Remove Programs</i>. Running a newer
+  <code>Install.exe</code> updates it in place, and closes the app first if it is open.</p>
+<p><b>Your data</b> - the database, the bills you gave it, exported files, backups and logs - is kept in
+  <code>%APPDATA%\Ultimate Accountant\bridge</code> (or, after an older stand-alone install,
+  <code>%APPDATA%\TallyInvoiceBridge\data</code>), wherever the program itself is installed. The Start menu
+  has <i>Open my data folder</i>. Uninstalling never removes it.</p>
+
+<h2>Starting and closing</h2>
+<p>Start it from its shortcut. It opens in a window of its own. Closing the window stops everything the app
+  started. Opening it again while it is running brings the open window to the front.</p>
+</section>
+
+<section class="new">
+<h2>Connecting Tally</h2>
+<ol>
+  <li>Open TallyPrime with your company loaded.</li>
+  <li>Press <kbd>F1</kbd> (Help) &rarr; <i>Settings</i> &rarr; <i>Connectivity</i> &rarr;
+    <i>Client/Server configuration</i>. Set <i>TallyPrime acts as</i> to <b>Both</b> and the port to
+    <b>9000</b>. (Tally.ERP 9: <kbd>F12</kbd> &rarr; Advanced Configuration.)</li>
+  <li>In the app, open <b>Settings</b>, press <b>Discover companies</b>, then <b>Sync</b> each company.</li>
+  <li>To post from the app, tick <b>Allow this app to write to Tally</b> in Settings. Until you do, the app
+    only reads from Tally and exports files.</li>
+</ol>
+<p>Sync copies your ledgers, stock items and voucher types to this computer, so reading and reviewing work
+  even with Tally closed. Tally needs to be open only to sync, to search it for duplicates, and to post.
+  Sync again after you create ledgers in Tally.</p>
+<p><b>Tally on another computer</b> on the same Wi-Fi or network: put that computer's address in
+  <i>Host</i> in Settings (its IPv4 address from <code>ipconfig</code>, such as 192.168.1.6). Windows Firewall
+  on the Tally computer must let port 9000 in. Once, in PowerShell run as administrator on the Tally
+  computer, with this computer's own address at the end of the first line:</p>
+<pre style="white-space:pre;font-size:8.5pt;background:#f3f5f8;padding:6px 8px;border-radius:4px">New-NetFirewallRule -DisplayName "TallyPrime 9000" -Direction Inbound `
+    -Protocol TCP -LocalPort 9000 -RemoteAddress 192.168.1.15
+Get-NetFirewallRule -Direction Inbound -Action Block |
+    Where-Object { $_.DisplayName -match 'tally' } | Remove-NetFirewallRule</pre>
+<p>The second command removes the rule Windows makes if its firewall question about TallyPrime was ever
+  cancelled. Then opening <code>http://192.168.1.6:9000</code> in a browser on this computer says <i>TallyPrime
+  Server is Running</i>. Tally's port has no password, which is why the rule lets in only this computer.</p>
+<p><b>Several companies.</b> Every company open in Tally is found, and each keeps its own ledgers. A bill goes
+  to the company whose GSTIN is on it, or else to the one you chose at upload. One that names none of them,
+  such as a kachcha bill, is never guessed: it waits for you to choose the company on the review screen.</p>
+
+<h2>Reading a bill</h2>
+<img src="shots/upload.png">
+<p class="cap">The first screen: drop bills here or choose them. A folder is also watched: anything saved into
+  it is read on its own.</p>
+<ol>
+  <li><b>Add document.</b> Drop the files or press <i>Choose files</i>.</li>
+  <li><b>What is it?</b> Pick the voucher type. The list is your own Tally's; a type you made yourself is
+    marked with the built-in type it works like (a "GST Purchase - Services" posts like a Purchase). With
+    several companies, leave <i>Company</i> on <i>From your GSTIN on each bill</i>, or pick one - do pick
+    one for kachcha bills. For a scan of several bills in one PDF, tick <i>Each page is a separate
+    bill</i>.</li>
+  <li><b>Review.</b> The app reads the bill and opens it for review. A printed PDF takes a second or two; a
+    scan or a photo is read by the AI and takes longer - see "It uses at most half of the computer". In a
+    batch, press <i>Review the ready ones</i> to start on them while the rest are read.</li>
+</ol>
+</section>
+
+<section class="new">
+<h2>The review screen</h2>
+<img src="shots/review.png">
+<p class="cap">A Hindi kachcha bill with handwritten figures, read by the AI. The fields in amber are the ones it
+  read; the supplier's ledger is still to be picked. The line items table follows below the panels.</p>
+<h3>On the left: the bill</h3>
+<p>Exactly as you gave it, page by page. <i>Fit</i>, <i>125%</i> and <i>175%</i> zoom; <i>Original</i>
+  opens the file itself.</p>
+<h3>&#9312; What I read</h3>
+<p>Every field the app found: bill number, date, the supplier or customer, their GSTIN, place of supply,
+  taxable value, CGST, SGST, IGST, round-off and the total. Hover over a label to see the line of the bill it
+  came from. <span class="amber">Amber</span> means the AI read it: check it against the bill. Correct
+  anything, then <b>Save changes</b>.</p>
+<p><b>The ledger in Tally</b> is chosen from your synced ledgers. The app suggests one: by GSTIN first (a
+  certain match), then by the choice you made for the same name before, then by how similar the name is,
+  with its confidence and the reason. When it cannot tell, it asks. <i>Create this ledger in Tally</i> makes a
+  new one from the bill's name and GSTIN.</p>
+<h3>&#9313; What I'll post to Tally</h3>
+<p>The voucher exactly as Tally will receive it, as debit and credit rows, built by the same code that posts
+  it. It must balance. Anything still missing - a ledger to pick - is shown in red and named under the
+  table.</p>
+</section>
+
+<section class="new">
+<img src="shots/review-checks.png">
+<p class="cap">A printed Hindi tax invoice written in Devanagari digits. The AI misread the bill number
+  (&#2407;&#2407;&#2408; as 192), a rate (&#2410;&#2410; as 48) and the total (&#2409;&#2410;&#2410;&#2410; as 3484), and missed the tax rows. The checks
+  caught the rate, the total and the missing tax; nothing can catch a wrong bill number by arithmetic, which
+  is why every number on such a bill needs a look. It cannot be posted until the figures are corrected or the
+  checks knowingly accepted.</p>
+<h3>&#9314; Duplicate check</h3>
+<p>The bill is compared with every entry in this app and with the vouchers already in Tally around its date,
+  including ones typed in by hand.</p>
+<ul>
+  <li><b>Likely duplicate</b> - the same bill number is already there. It is not posted until you tick
+    "this is a different bill".</li>
+  <li><b>Similar bill</b> - same party and amount, different number. A warning only.</li>
+</ul>
+<p>Tally is searched again at the moment of posting. If it cannot be searched then, the app says so instead
+  of posting blind. Every override is recorded.</p>
+<h3>&#9315; Checks</h3>
+<p>Arithmetic and GST, never opinion: the lines add up to the taxable value (or, on a bill with no tax, to the
+  total); quantity times rate is the amount; IGST or CGST+SGST is right for the supplier's state and the place
+  of supply; the GSTIN's check digit is valid; taxable value plus tax is the total. A failed check is shown in
+  red and must be fixed or knowingly accepted.</p>
+<h3>Line items</h3>
+<p>Where each line posts: an expense or purchase ledger, or a stock item. Your choice is remembered, so the
+  same item on the next bill is matched by itself.</p>
+<h3>The buttons</h3>
+<table>
+  <tr><th>Post to Tally</th><td>Creates the voucher in Tally now.</td></tr>
+  <tr><th>Save as draft in Tally</th><td>Creates it as an optional voucher: it shows in the Day Book but
+    does not touch your books until you make it regular in Tally.</td></tr>
+  <tr><th>Export XML</th><td>Writes a file you can import into Tally yourself.</td></tr>
+  <tr><th>Show XML</th><td>Shows exactly what would be sent, without sending it.</td></tr>
+  <tr><th>Reject</th><td>Sets the bill aside.</td></tr>
+</table>
+<p>Each asks you to confirm. After posting, change the voucher in Tally; the app does not sync edits back.</p>
+</section>
+
+<section class="new">
+<h2>Handwritten and Hindi bills</h2>
+<p>A scan or a photo is read by the AI from the picture itself, which is what makes handwriting and Hindi
+  readable at all. Printed text is also read by the text reader; where the two readings of a value differ,
+  the app shows both and marks the value uncertain.</p>
+<ul>
+  <li><b>Names stay as written.</b> A supplier written as श्री गणेश ट्रेडर्स stays that way - the AI does not
+    translate. The first bill from such a supplier needs you to pick their ledger once; after that the app
+    matches the name by itself.</li>
+  <li><b>Numbers are copied, then checked.</b> On a bill without tax the lines must add up to the total, which
+    catches most misread figures.</li>
+  <li><b>Devanagari digits need a careful look.</b> On bills written in Devanagari digits the AI confuses
+    &#2410;, &#2414;, &#2412;, &#2415; and &#2411; (4, 8, 6, 9, 5) more often than it should. Check every number on
+    such bills against the paper.</li>
+  <li><b>A photo works.</b> Take it straight on, in good light, with the whole bill in the picture.</li>
+</ul>
+<p>An entry with anything the AI read is never counted as "clean", so it is never approved in a batch without
+  you looking at it.</p>
+
+<h2>The review list</h2>
+<p><i>Review</i> lists every entry: to review, exported, drafts in Tally, posted and rejected, weakest first,
+  with a search by bill number, party or GSTIN. <i>Export N clean</i> exports in one go the entries that
+  scored high, failed no check, have no likely duplicate and have nothing read by the AI.</p>
+<p>While a batch is being read, the list says how many are still to come, and each bill joins it when it is
+  ready; the bill you have open is left alone. A bill that could not be read is shown at the top with the
+  reason, <i>Try again</i> and <i>Set aside</i>. Closing the app in the middle of a batch is safe: it carries on
+  at the next start. With several companies, each entry shows its company, or <i>Choose company</i>.</p>
+
+<h2>It uses at most half of the computer</h2>
+<p>The app, the text reader and the AI together use no more than half of the computer, so Tally and
+  everything else stay quick. Measured every second while reading bills on a laptop with an i7-13650HX and an
+  RTX 4050:</p>
+<table>
+  <tr><th></th><th>Limit</th><th>Measured</th></tr>
+  <tr><td>Processor (CPU)</td><td>50%, enforced by Windows</td><td>highest second 46.5%, average 33%</td></tr>
+  <tr><td>Graphics card memory</td><td>50%</td><td>45.5% at most</td></tr>
+  <tr><td>Graphics card busy time</td><td>50% on average</td><td>19% on average</td></tr>
+</table>
+<p>The graphics card still reaches full use for fractions of a second while it reads; no graphics card offers
+  a way to prevent that. The price of the limits is time: a one-page scan takes about 40 seconds with a
+  graphics card and about a minute without one. Printed PDFs take a second or two either way.</p>
+</section>
+
+<section class="new">
+<h2>Settings</h2>
+<img src="shots/settings.png">
+<p class="cap">Settings: Tally, the AI reader, review, the watched folder and backups.</p>
+<ul>
+  <li><b>Tally</b>: its address and port, <i>Discover companies</i>, <i>Sync</i> per company, and
+    <i>Allow this app to write to Tally</i>.</li>
+  <li><b>AI reader</b>: on or off. With it off, only printed text is read, by rules.</li>
+  <li><b>Review</b>: the score at which an entry counts as clean.</li>
+  <li><b>Watched folder</b>: bills saved into it are read on their own.</li>
+  <li><b>Backups</b>: the database is backed up every six hours and the last 14 are kept; <i>Back up now</i>
+    makes one on the spot.</li>
+</ul>
+
+<h2>When something is not right</h2>
+<table>
+  <tr><th>Tally isn't connected</th><td>Open TallyPrime with the company loaded and check step 2 of
+    "Connecting Tally". A dialog open inside Tally also stops it answering. Tally on another computer: its
+    firewall is the usual cause - see "Connecting Tally".</td></tr>
+  <tr><th>A bill could not be read</th><td>The review list says why. <i>Try again</i> reads it again; a file
+    deleted from the data folder has to be uploaded again.</td></tr>
+  <tr><th>The AI is not available</th><td>Hover over <i>AI</i> at the top right to see why. The app keeps
+    working on printed bills; scans come in with empty fields for you to fill in.</td></tr>
+  <tr><th>A ledger is missing</th><td>Create it in Tally (or with <i>Create this ledger in Tally</i>), then
+    <i>Sync</i> in Settings and <i>Re-match</i> on the entry.</td></tr>
+  <tr><th>The app does not start</th><td>A message says so. The details are in the <code>logs</code> folder
+    inside the data folder (Start menu &rarr; <i>Open my data folder</i>).</td></tr>
+</table>
+
+<h2>What it cannot do yet</h2>
+<ul>
+  <li>Reading from your TallyPrime is tested; posting into it is not yet. Make the first entries with
+    <i>Show XML</i> and <i>Save as draft</i> before posting for real.</li>
+  <li>Its reading of real handwritten Hindi bills has not been measured yet: until it has, check every value
+    on such bills.</li>
+  <li>TallyPrime has no way to attach the bill itself to a voucher; the bill stays in the app, found by its
+    number.</li>
+  <li>Edits made in Tally after posting do not come back to the app.</li>
+</ul>
+</section>
+
+</body>
+</html>

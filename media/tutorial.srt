@@ -1,0 +1,145 @@
+1
+00:00:00,000 --> 00:00:11,880
+[Assurance Console – Every entry that does not agree, and why]
+It checks your books against what someone else has on record – the GST portal, your bank, or a supplier – and tells you in plain words why anything does not agree.
+
+2
+00:00:11,880 --> 00:00:15,940
+It all runs on this computer. Nothing is uploaded.
+
+3
+00:00:17,540 --> 00:00:20,440
+[01 Pick a check]
+It starts on one screen.
+
+4
+00:00:22,040 --> 00:00:31,540
+There are three kinds of check. Your purchase bills, against what your suppliers filed on the GST portal. Your bank book, against the bank's statement.
+
+5
+00:00:31,540 --> 00:00:37,300
+Or your ledger for one supplier or customer, against the statement they sent you.
+
+6
+00:00:37,300 --> 00:00:41,360
+[02 Add two files]
+Each check needs two files that ought to agree.
+
+7
+00:00:42,960 --> 00:00:55,180
+For GST, that is the purchase register you export from Tally, and the GSTR-2B – the list of bills your suppliers filed – from the portal. A tick shows each file is in.
+
+8
+00:00:55,180 --> 00:01:01,280
+Then press Check these files. Not ready with your own? Try it with sample files.
+
+9
+00:01:01,280 --> 00:01:04,660
+[03 Read the verdict]
+The answer comes first, in one sentence.
+
+10
+00:01:06,260 --> 00:01:16,100
+The headline says how many entries need a look. Under it are the figures that matter, in plain words. The credit you can safely claim now.
+
+11
+00:01:16,100 --> 00:01:22,880
+The credit waiting on bills missing from your books. The last date to claim this year's credit.
+
+12
+00:01:22,880 --> 00:01:34,080
+Below it is everything still open, one line each: the date, why it is open in a single sentence, and the amount. A red dot means money is at risk.
+
+13
+00:01:34,080 --> 00:01:37,120
+Amber means it needs a look.
+
+14
+00:01:37,120 --> 00:01:40,840
+[04 Why an entry is open]
+Open any line to read the whole reason.
+
+15
+00:01:42,440 --> 00:01:54,320
+Pick a group in the margin – here, bills whose number differs – and open a line. It says what the entry is, what was compared, and what it means for you.
+
+16
+00:01:54,320 --> 00:01:59,740
+Then exactly what to do – here, correct one bill number in Tally.
+
+17
+00:01:59,740 --> 00:02:03,120
+[05 Tick it off]
+Dealt with it? Mark it as done.
+
+18
+00:02:04,720 --> 00:02:18,300
+The line turns grey, gets a tick and moves to the end of the list, and the counts in the margin drop by one. It stays ticked when you open the run again. Undo puts it back.
+
+19
+00:02:18,300 --> 00:02:22,020
+[06 The bank]
+Next, the bank – in the same run.
+
+20
+00:02:23,620 --> 00:02:33,460
+A run is one client and one period. Choose Add another check to this run, pick Bank, and add the bank's statement and your bank book.
+
+21
+00:02:33,460 --> 00:02:39,900
+The statement can be Excel, CSV or a PDF – even a scan or a photo.
+
+22
+00:02:39,900 --> 00:02:44,640
+It opens with the gap between your books and the bank.
+
+23
+00:02:44,640 --> 00:02:54,820
+Then it names every rupee of it – cheques not yet paid out, deposits not yet credited, charges not yet entered – until the two balances meet.
+
+24
+00:02:54,820 --> 00:03:03,640
+Every open line gets its own reason – even this one. ₹236 left the bank with nothing but a dot for a description.
+
+25
+00:03:03,640 --> 00:03:15,180
+So the explanation says exactly that: with no name or reference to go on, only the amount and the date could be compared, and your books have no payment of ₹236.
+
+26
+00:03:15,180 --> 00:03:20,260
+What to do: find out what it paid for, and enter it.
+
+27
+00:03:20,260 --> 00:03:23,640
+[07 A party's statement]
+A supplier's statement works the same way.
+
+28
+00:03:25,240 --> 00:03:36,440
+Add the statement a supplier or customer sent you, and your ledger for them. You see what each side says is owed, and every entry that makes up the difference.
+
+29
+00:03:36,440 --> 00:03:39,480
+[08 Take it with you]
+Everything on screen can be downloaded.
+
+30
+00:03:41,080 --> 00:03:49,220
+An Excel workbook, with a sheet giving the reason for every open entry. A PDF working paper to print and sign.
+
+31
+00:03:49,220 --> 00:03:54,300
+Lists as CSV, and ready-to-send letters to suppliers about their missing bills.
+
+32
+00:03:54,300 --> 00:04:02,100
+Every run is saved on this computer. Open it again next month, add another check to it, or delete it.
+
+33
+00:04:02,100 --> 00:04:11,940
+Settings holds your business details and how closely entries must agree. When you are finished, Close the app is here. Everything was saved as you went.
+
+34
+00:04:11,940 --> 00:04:19,740
+[Every entry, explained – Checked on this computer. Nothing uploaded.]
+Pick a check, add two files, and read why anything does not agree. That is all there is to it.

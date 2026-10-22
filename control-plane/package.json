@@ -1,0 +1,8 @@
+{
+  "name": "ultimate-accountant-control-plane",
+  "private": true,
+  "description": "Only the Vercel CLI, for this repository. Run it through scripts/vercel.ps1, which keeps its login in control-plane/.vercel-cli.",
+  "devDependencies": {
+    "vercel": "62.5.0"
+  }
+}

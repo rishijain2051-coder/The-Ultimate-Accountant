@@ -1,0 +1,31 @@
+{
+  "brand": "Assurance Console",
+  "tagline": "Two documents that should agree, and the reason for every line that does not",
+  "brief": "A local desktop tool for a small Indian business's monthly reconciliations - GST, bank, party statements - and its export register. For the owner as much as the accountant: plain words, the look of a red bahi-khata ledger, nothing uploaded.",
+  "adjectives": ["exact", "plain", "trustworthy", "calm"],
+  "criteria": "Success: says reconciliation without a chart or a shield; clear at 16 px; one colour; at home on the maroon cover band.",
+  "mockups": ["app-icon", "favicon-tab", "website", "business-card", "social", "sticker"],
+  "nav": ["Reconciliation", "Exports", "Settings"],
+  "brand_color": "#74191F",
+  "greyscale": false,
+  "designer": "Draveta",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Agreed",
+      "symbol": "assurance-console-symbol.svg",
+      "lockup": "assurance-console-horizontal.svg",
+      "symbol_on_tile": "assurance-console-symbol-reversed.svg",
+      "lockup_on_dark": "assurance-console-horizontal-reversed.svg",
+      "tile_color": "#74191F",
+      "idea": "An equals sign whose lower bar ticks itself: the two sides agree.",
+      "rationale": [
+        "What every check in the app ends in: two documents that agree, and the auditor's tick",
+        "Bars, flat ends and 45 degrees only; the name is lettered in the same vocabulary",
+        "Maroon cloth and turmeric gold, from the ledger's binding in the app"
+      ]
+    }
+  ],
+  "recommendation": "Agreed - chosen. Maroon on light, gold on the maroon cover; a heavier small cut for 16-48 px.",
+  "next_steps": ["Use the files in brand/", "Full installer carries the new Windows icon", "Trademark search before wider use"]
+}

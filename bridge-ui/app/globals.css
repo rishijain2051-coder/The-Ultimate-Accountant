@@ -1,0 +1,313 @@
+@import "tailwindcss";
+
+/* Warm monochrome: a bone canvas, white cards on 1px rules, charcoal ink and
+   one black for the main action. Colour only ever says something: the four
+   pastels are states. Every colour reads from these tokens, so dark mode is a
+   variable swap, not a second stylesheet. Greys stay 4.5:1 on every surface. */
+:root {
+  color-scheme: light dark;
+  --bg: #f7f6f3;
+  --panel: #ffffff;
+  --panel-2: #fbfbfa;     /* a quiet fill inside a card */
+  --hover: #f5f4f1;
+  --active: #edeceb;      /* the row you are on */
+  --tab-on: #ffffff;
+  --edge: #eaeaea;        /* every card, rule and divider */
+  --edge-strong: #d8d7d3; /* fields and buttons */
+  --ink: #2f3437;
+  --ink-strong: #111111;
+  --muted: #62615d;
+  --faint: #6b6a66;       /* dates and names: still 4.5:1 */
+  --primary: #111111;
+  --primary-hover: #333333;
+  --on-primary: #ffffff;
+  --good: #346538;  --good-soft: #edf3ec;
+  --warn: #8c5e00;  --warn-soft: #fbf3db;
+  --bad: #9f2f2d;   --bad-soft: #fdebec;
+  --info: #1f6c9f;  --info-soft: #e1f3fe;
+  --neutral-soft: #efeeea;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 8px 24px rgba(0, 0, 0, 0.045);
+  --glow: rgba(236, 200, 152, 0.2);
+  --radius: 6px;         /* controls */
+  --radius-panel: 12px;  /* the cards that hold them */
+  /* Geist and Newsreader ship with the app (public/fonts, SIL OFL); what
+     they lack, such as ₹, falls back to Windows' own. */
+  --font-sans: "Geist", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-serif: "Newsreader", "Sitka Heading", Georgia, serif;
+  --font-mono: "Geist Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
+}
+
+@font-face { font-family: "Geist"; src: url("/bridge/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("/bridge/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("/bridge/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #191919;
+    --panel: #202020;
+    --panel-2: #1d1d1d;
+    --hover: #252525;
+    --active: #2e2e2d;
+    --tab-on: #2e2e2d;
+    --edge: #2f2f2e;
+    --edge-strong: #403f3d;
+    --ink: #d9d8d5;
+    --ink-strong: #f2f1ee;
+    --muted: #a5a4a0;
+    --faint: #9b9a97;
+    --primary: #f2f1ee;
+    --primary-hover: #dcdbd7;
+    --on-primary: #111111;
+    --good: #7dbe88;  --good-soft: #1e2f22;
+    --warn: #ddae5b;  --warn-soft: #352a17;
+    --bad: #ee8c82;   --bad-soft: #3a2220;
+    --info: #7eb6e3;  --info-soft: #1b2c3a;
+    --neutral-soft: #2e2e2d;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.28);
+    --glow: rgba(236, 200, 152, 0.035);
+  }
+}
+
+html { background: var(--bg); }
+html, body {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+/* One warm light spot, fixed behind everything: depth without a picture. */
+body { background: radial-gradient(1100px 560px at 8% -14%, var(--glow), transparent 70%) no-repeat fixed, var(--bg); }
+
+/* The browser's own surfaces, in the app's colours: selection, the caret,
+   checkboxes and radios, scrollbars, links, keyboard focus. */
+html { caret-color: var(--ink-strong); accent-color: var(--ink-strong); scrollbar-color: var(--edge-strong) transparent; }
+* { scrollbar-width: thin; }
+::selection { background: color-mix(in srgb, var(--info) 22%, transparent); }
+a { text-underline-offset: 3px; }
+:where(button, a, input, select, textarea, summary):focus-visible { outline: 2px solid var(--ink-strong); outline-offset: 2px; }
+
+/* ---- type ---- */
+.wordmark {
+  font-family: var(--font-serif); font-size: 18px; font-weight: 500; letter-spacing: -0.02em;
+  line-height: 1.1; color: var(--ink-strong); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 0.45em;
+}
+/* The mark is 1.75x the name's cap height and centred on it. */
+.wordmark .mark { height: 1.15em; width: auto; flex: none; fill: currentColor; }
+.title {
+  font-family: var(--font-serif); font-size: 34px; font-weight: 500; letter-spacing: -0.03em;
+  line-height: 1.1; color: var(--ink-strong); text-wrap: balance;
+}
+.heading {
+  font-family: var(--font-serif); font-size: 21px; font-weight: 500; letter-spacing: -0.02em;
+  line-height: 1.2; color: var(--ink-strong);
+}
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.hairline { border-color: var(--edge); }
+.label { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 500; color: var(--muted); }
+.link {
+  color: var(--ink-strong); font-weight: 500; text-decoration: underline;
+  text-decoration-color: var(--edge-strong); text-underline-offset: 3px; transition: text-decoration-color 150ms;
+}
+.link:hover { text-decoration-color: currentColor; }
+
+/* A key, as printed on the keyboard. */
+kbd {
+  display: inline-block; min-width: 1.7em; padding: 0 5px; text-align: center;
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; line-height: 17px; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--edge); border-radius: 4px; box-shadow: inset 0 -1px 0 var(--edge);
+}
+
+/* ---- surfaces ---- */
+.panel { background: var(--panel); border: 1px solid var(--edge); border-radius: var(--radius-panel); }
+.panel-shadow { box-shadow: var(--shadow); }
+.section-title {
+  display: flex; align-items: center; gap: 8px; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--edge); font-weight: 600; font-size: 13px; color: var(--ink-strong);
+}
+.row-hover { transition: background-color 120ms; }
+.row-hover:hover { background: var(--hover); }
+/* A faint dot grid for an empty space, fading out toward what is written on it. */
+.dots { position: relative; isolation: isolate; }
+.dots::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--ink-strong) 16%, transparent) 1px, transparent 1.5px);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(ellipse at center, transparent 25%, #000 90%);
+}
+
+/* A state: a small pastel tag. Neutral unless it needs you. */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px; border-radius: 9999px; padding: 0 8px;
+  font-size: 10.5px; font-weight: 600; line-height: 18px; letter-spacing: 0.05em; text-transform: uppercase;
+  white-space: nowrap; background: var(--neutral-soft); color: var(--muted);
+}
+.chip-good { background: var(--good-soft); color: var(--good); }
+.chip-warn { background: var(--warn-soft); color: var(--warn); }
+.chip-bad { background: var(--bad-soft); color: var(--bad); }
+.chip-info { background: var(--info-soft); color: var(--info); }
+
+/* A notice: a flat pastel box; its mark takes the tone. */
+.note {
+  --tone: var(--info);
+  display: flex; align-items: flex-start; gap: 10px;
+  border-radius: 8px; padding: 10px 14px; background: var(--info-soft); color: var(--ink);
+}
+.note-good { --tone: var(--good); background: var(--good-soft); }
+.note-warn { --tone: var(--warn); background: var(--warn-soft); }
+.note-bad { --tone: var(--bad); background: var(--bad-soft); }
+
+/* ---- controls ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border-radius: var(--radius); border: 1px solid var(--edge-strong);
+  background: var(--panel); color: var(--ink-strong);
+  padding: 6px 12px; font-weight: 500; font-size: 13px; line-height: 18px; white-space: nowrap;
+  transition: background-color 150ms, border-color 150ms, color 150ms, transform 100ms;
+}
+.btn:hover:not(:disabled) { background: var(--hover); }
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-hover); border-color: var(--primary-hover); }
+.btn-ghost { border-color: transparent; background: transparent; }
+.btn-danger { color: var(--bad); }
+
+.field {
+  width: 100%; border-radius: var(--radius); border: 1px solid var(--edge-strong);
+  background: var(--panel); color: var(--ink); padding: 6px 10px; outline: none;
+  transition: border-color 150ms, box-shadow 150ms, background-color 150ms;
+}
+.field::placeholder { color: var(--faint); opacity: 1; }
+.field:focus { border-color: var(--ink-strong); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink-strong) 8%, transparent); }
+.field:disabled { background: var(--panel-2); color: var(--muted); }
+.field-llm { border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: var(--warn-soft); }
+
+/* A few choices side by side, the chosen one lifted out. */
+.tabs {
+  display: inline-flex; align-items: center; gap: 2px; padding: 2px;
+  border: 1px solid var(--edge); border-radius: 8px; background: var(--hover);
+}
+.tab {
+  display: inline-flex; align-items: baseline; padding: 4px 10px; border-radius: 6px;
+  font-weight: 500; color: var(--muted); white-space: nowrap; transition: color 150ms, background-color 150ms;
+}
+.tab:hover { color: var(--ink-strong); }
+.tab[aria-pressed="true"] {
+  background: var(--tab-on); color: var(--ink-strong);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 0 0 1px var(--edge);
+}
+.nav-link {
+  padding: 5px 10px; border-radius: 6px; font-weight: 500; color: var(--muted); white-space: nowrap;
+  transition: color 150ms, background-color 150ms;
+}
+.nav-link:hover { color: var(--ink-strong); background: var(--hover); }
+.nav-link[aria-current="page"] { color: var(--ink-strong); background: var(--active); }
+
+/* A card to pick, as on the upload screen. */
+.option {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left;
+  padding: 12px 14px; border: 1px solid var(--edge); border-radius: 10px; background: var(--panel);
+  transition: border-color 150ms, box-shadow 200ms;
+}
+.option:hover { border-color: var(--edge-strong); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+.option[aria-pressed="true"] { border-color: var(--ink-strong); box-shadow: inset 0 0 0 1px var(--ink-strong); }
+
+/* Hover any field label to see the exact line it came from. Trust in this
+   tool is mostly this one interaction. */
+.evi { position: relative; cursor: help; }
+.evi-pop {
+  pointer-events: none; position: absolute; left: 0; top: calc(100% + 4px); z-index: 60;
+  display: none; width: max-content; max-width: 420px;
+  background: var(--panel); border: 1px solid var(--edge); border-radius: 8px;
+  padding: 8px 10px; font-size: 11.5px; box-shadow: var(--shadow);
+}
+.evi:hover .evi-pop { display: block; }
+
+table.tbl { width: 100%; border-collapse: collapse; }
+table.tbl th {
+  text-align: left; padding: 8px 12px; font-size: 12px; font-weight: 500; color: var(--muted);
+  border-bottom: 1px solid var(--edge);
+}
+table.tbl td { padding: 9px 12px; border-bottom: 1px solid var(--edge); vertical-align: top; }
+table.tbl tr:last-child td { border-bottom: none; }
+
+/* A row that scrolls sideways on a narrow window (the nav, the tabs):
+   swiped, without a bar under it. */
+.scroll-x { overflow-x: auto; scrollbar-width: none; }
+.scroll-x::-webkit-scrollbar { display: none; }
+
+/* A small drawn mark (components/ui Icon): one stroke, sized to the text. */
+.icon { width: 1em; height: 1em; flex-shrink: 0; display: inline-block; vertical-align: -0.125em; }
+
+/* ---- motion: present, never in the way ---- */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+.rise, .stagger > * { animation: rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.stagger > :nth-child(2) { animation-delay: 80ms; }
+.stagger > :nth-child(3) { animation-delay: 160ms; }
+.stagger > :nth-child(4) { animation-delay: 240ms; }
+.stagger > :nth-child(5) { animation-delay: 320ms; }
+.stagger > :nth-child(6) { animation-delay: 400ms; }
+.stagger > :nth-child(n + 7) { animation-delay: 480ms; }
+
+/* The voucher, laid out and keyed as Tally's own voucher screen. Fields read
+   as plain text until you are on one, which lights up as Tally's does. */
+.tv { --tv-rule: var(--edge); --tv-focus: var(--warn-soft); background: var(--panel); overflow: hidden; }
+.tv-grid { display: grid; grid-template-columns: minmax(0, 1fr) 112px; }
+.tv-main { min-width: 0; padding: 16px 18px 18px; }
+.tv-type {
+  background: var(--primary); color: var(--on-primary); font-weight: 600; padding: 2px 10px;
+  border-radius: 4px; letter-spacing: 0.01em; white-space: nowrap;
+}
+.tv .field { border-color: transparent; background: transparent; border-radius: 4px; padding: 3px 6px; }
+.tv .field:hover:not(:disabled) { border-color: var(--edge-strong); }
+.tv .field:focus, .tv .field:focus-visible {
+  background: var(--tv-focus); border-color: color-mix(in srgb, var(--warn) 45%, transparent); box-shadow: none; outline: none;
+}
+.tv .field.field-llm { border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: var(--warn-soft); }
+.tv .field:disabled { background: transparent; color: var(--ink); }
+.tv-tbl { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.tv-tbl th {
+  padding: 6px; font-size: 12px; font-weight: 500; text-align: left; color: var(--muted);
+  border-top: 1px solid var(--tv-rule); border-bottom: 1px solid var(--tv-rule);
+}
+.tv-tbl td { padding: 2px 0; vertical-align: top; }
+.tv-tbl .r, .tv-tbl th.r { text-align: right; }
+.tv-item > td:first-child > button.field { font-weight: 600; color: var(--ink-strong); }
+.tv-sum td { border-top: 1px solid var(--tv-rule); padding-top: 6px; font-weight: 600; color: var(--ink-strong); }
+.tv-sub {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+  padding: 0 6px 4px; font-size: 11.5px; color: var(--muted);
+}
+.tv-mini { display: inline-block; width: 220px; max-width: 100%; }
+.tv-mini .field { padding: 0 6px; font-size: 11.5px; }
+.tv-gone { opacity: 0.5; }
+.tv-gone .field, .tv-gone span { text-decoration: line-through; }
+.tv-foot {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+  margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--tv-rule);
+}
+.tv-total { font-family: var(--font-mono); font-size: 16px; font-weight: 600; color: var(--ink-strong); padding-top: 18px; }
+.tv-box { border: 1px solid var(--tv-rule); border-radius: 8px; background: var(--panel-2); padding: 10px 12px; }
+.tv-bill {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin-top: 12px;
+  padding: 8px 12px; border: 1px solid var(--tv-rule); border-radius: 8px; background: var(--panel-2); font-size: 12px;
+}
+.tv-keys {
+  display: flex; flex-direction: column; gap: 2px; padding: 10px 6px;
+  border-left: 1px solid var(--tv-rule); background: var(--panel-2);
+}
+.tv-keys button {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  padding: 6px 8px; border-radius: 6px; text-align: left; font-size: 12px; line-height: 1.25; color: var(--ink);
+  transition: background-color 120ms;
+}
+.tv-keys button:hover:not(:disabled) { background: var(--hover); }
+.tv-keys button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

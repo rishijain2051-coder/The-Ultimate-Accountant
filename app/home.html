@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultimate Accountant</title>
+<!-- The first page: the two modules, each in its own colours and mark. Choosing one
+     grows its card over the page, then that module's own opening plays
+     (Assurance Console: app/frontend/js/launch.js, asked for by ?opening; the Tally
+     Bridge: bridge-ui/public/opening.html) and its own first page opens. -->
+<!-- The app tile (brand/ultimate-accountant/ultimate-accountant-app-icon.svg). -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2IiB3aWR0aD0iMjU2IiBoZWlnaHQ9IjI1NiI+PHRpdGxlPlVsdGltYXRlIEFjY291bnRhbnQ8L3RpdGxlPjxyZWN0IHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiByeD0iNTcuNiIgZmlsbD0iI0U5QzQ2QSIvPjxwYXRoIGZpbGw9IiMxQzFFMjMiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuMzcgMjQuMzcpIHNjYWxlKDAuNzk0KSIgZD0iTTc3LjY2IDIyMS4wOCBMMTkwLjgyIDI1LjA4IEwxMzcuNzEgMjUuMDggTDI0LjU1IDIyMS4wOCBaIE0xNDkuOTcgMTU1Ljg0IEwyMzQuMjIgMTU1Ljg0IEwyMzQuMjIgMTEzLjg0IEwxNzQuMjIgMTEzLjg0IFoiLz48L3N2Zz4NCg==">
+<style>
+@font-face { font-family: "Newsreader"; src: url("/bridge/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight: 200 800; }
+:root {
+  --page: #f4f2ed; --ink: #1c1e23; --muted: #5d5f66; --rule: #dedad1;
+  --maroon: #74191f; --maroon-deep: #58121a; --charcoal: #1c1e23; --gold: #e9c46a; --cream: #f6ead0;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --page: #141414; --ink: #f0eee9; --muted: #a8a59d; --rule: #2c2b29; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  display: flex; flex-direction: column; min-height: 100vh; background: var(--page); color: var(--ink);
+  font: 400 15px/1.55 "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+header, footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 32px; }
+/* The lockup (brand/ultimate-accountant/): "/-" and the lettered name, ink on light, gold on dark. */
+.lockup { display: block; height: 40px; width: auto; color: var(--ink); }
+@media (prefers-color-scheme: dark) { .lockup { color: var(--gold); } }
+.quiet { color: var(--muted); font-size: 13px; }
+footer a { text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+main { flex: 1; display: grid; place-content: center; gap: 36px; padding: 8px 32px 40px; }
+h1 { margin: 0; font-weight: 600; font-size: clamp(26px, 3vw, 34px); letter-spacing: -0.015em; text-align: center; }
+.lede { margin: -26px 0 0; text-align: center; color: var(--muted); }
+
+.modules { display: grid; grid-template-columns: repeat(2, minmax(0, 420px)); gap: 28px; }
+.module {
+  position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; gap: 18px;
+  min-height: 380px; padding: 34px 34px 30px; border-radius: 14px; text-decoration: none;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 18px 40px -22px rgb(0 0 0 / .45);
+  transition: transform 220ms cubic-bezier(.16, 1, .3, 1), box-shadow 220ms;
+}
+.module:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgb(0 0 0 / .08), 0 26px 50px -24px rgb(0 0 0 / .55); }
+.module:active { transform: translateY(-1px) scale(.995); }
+.module .mark { width: 58px; height: 58px; fill: var(--gold); }
+.module p { margin: 0; max-width: 34ch; }
+.module ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.module li { padding: 2px 10px; border-radius: 99px; font-size: 12.5px; border: 1px solid; }
+.module .go { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--gold); }
+.module .go svg { width: 18px; height: 18px; transition: transform 220ms cubic-bezier(.16, 1, .3, 1); }
+.module:hover .go svg { transform: translateX(4px); }
+
+/* Assurance Console: the bahi-khata's maroon cloth and gold lettering, its double rose margin rule. */
+.console { background: var(--maroon); color: var(--cream); }
+.console::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; right: 30px; width: 4px;
+  border-left: 1px solid rgb(230 174 179 / .35); border-right: 1px solid rgb(230 174 179 / .35); }
+.console h2 { margin: 0; color: var(--gold); font-weight: 700; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; }
+.console li { border-color: rgb(233 196 106 / .45); color: var(--cream); }
+
+/* The Invoice Bridge: charcoal and gold, the faint ledger ruling of its opening. */
+.bridge { background: var(--charcoal); color: #d9d4c7; }
+.bridge::before { content: ""; position: absolute; z-index: -1; inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent 0 31px, rgb(233 196 106 / .07) 31px 32px); }
+.bridge h2 { margin: 0; color: var(--gold); font: 500 34px/1 "Newsreader", Georgia, serif; letter-spacing: -0.02em; }
+.bridge li { border-color: rgb(233 196 106 / .35); }
+
+/* The chosen card grows over the page, in its own colour, into its module's opening. */
+.grow { position: fixed; z-index: 10; border-radius: 14px; pointer-events: none; }
+
+@media (max-width: 900px) {
+  .modules { grid-template-columns: minmax(0, 520px); }
+  .module { min-height: 0; }
+  header, footer, main { padding-left: 16px; padding-right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .module, .module .go svg { transition: none; } }
+</style>
+</head>
+<body>
+<header>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1302 256" class="lockup" role="img" aria-label="Ultimate Accountant"><path fill="currentColor" fill-rule="evenodd" transform="translate(0 0) scale(1.0)" d="M81.41 211.43 L183.03 35.43 L143.77 35.43 L42.15 211.43 Z M139.98 149.99 L212.46 149.99 L212.46 117.99 L158.46 117.99 Z"/><g fill="currentColor" transform="translate(256.5 95.0)"><path fill-rule="evenodd" transform="translate(0.0 0.0) scale(0.62)" d="M0 0 H18 V82 H54 V0 H72 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(60.8 0.0) scale(0.62)" d="M0 0 H18 V82 H60 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(105.4 0.0) scale(0.62)" d="M0 0 H68 V18 H43 V100 H25 V18 H0 Z"/><path fill-rule="evenodd" transform="translate(158.7 0.0) scale(0.62)" d="M0 0 H18 V100 H0 Z"/><path fill-rule="nonzero" transform="translate(186.0 0.0) scale(0.62)" d="M0 0 H18 L45 27 L72 0 H90 V100 H72 V25.5 L45 52.5 L18 25.5 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(257.9 0.0) scale(0.62)" d="M0 30 L30 0 H42 L72 30 V100 H54 V70 H18 V100 H0 Z M18 37.5 L36 19.5 L54 37.5 V52 H18 Z"/><path fill-rule="evenodd" transform="translate(312.5 0.0) scale(0.62)" d="M0 0 H68 V18 H43 V100 H25 V18 H0 Z"/><path fill-rule="evenodd" transform="translate(365.8 0.0) scale(0.62)" d="M0 0 H60 V18 H18 V41 H52 V59 H18 V82 H60 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(453.8 0.0) scale(0.62)" d="M0 30 L30 0 H42 L72 30 V100 H54 V70 H18 V100 H0 Z M18 37.5 L36 19.5 L54 37.5 V52 H18 Z"/><path fill-rule="evenodd" transform="translate(514.6 0.0) scale(0.62)" d="M0 0 H68 V18 H18 V82 H68 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(572.9 0.0) scale(0.62)" d="M0 0 H68 V18 H18 V82 H68 V100 H0 Z"/><path fill-rule="evenodd" transform="translate(631.2 0.0) scale(0.62)" d="M0 0 H76 V100 H0 Z M18 18 H58 V82 H18 Z"/><path fill-rule="evenodd" transform="translate(694.4 0.0) scale(0.62)" d="M0 0 H18 V82 H54 V0 H72 V100 H0 Z"/><path fill-rule="nonzero" transform="translate(755.2 0.0) scale(0.62)" d="M0 0 H18 V100 H0 Z M54 0 H72 V100 H54 Z M0 0 H22 L72 100 H50 Z"/><path fill-rule="evenodd" transform="translate(811.0 0.0) scale(0.62)" d="M0 0 H68 V18 H43 V100 H25 V18 H0 Z"/><path fill-rule="evenodd" transform="translate(863.0 0.0) scale(0.62)" d="M0 30 L30 0 H42 L72 30 V100 H54 V70 H18 V100 H0 Z M18 37.5 L36 19.5 L54 37.5 V52 H18 Z"/><path fill-rule="nonzero" transform="translate(923.8 0.0) scale(0.62)" d="M0 0 H18 V100 H0 Z M54 0 H72 V100 H54 Z M0 0 H22 L72 100 H50 Z"/><path fill-rule="evenodd" transform="translate(979.6 0.0) scale(0.62)" d="M0 0 H68 V18 H43 V100 H25 V18 H0 Z"/></g></svg>
+  <span class="quiet" id="version"></span>
+</header>
+
+<main>
+  <h1>What are you working on?</h1>
+  <p class="lede">Two modules on this one computer. Nothing you open here leaves it.</p>
+  <nav class="modules" aria-label="Modules">
+    <a class="module console" href="/console/?opening">
+      <svg class="mark" viewBox="0 30 256 190" aria-hidden="true"><path d="M35.5 60 H159.5 V90 H35.5 Z M35.5 126 H113.5 L135.5 148 L199.5 84 L220.5 105 L135.5 190 L101.5 156 H35.5 Z"/></svg>
+      <h2>Assurance Console</h2>
+      <p>Check your books against what others filed and sent: GSTR-2B, the bank statement, a party's statement.
+        And every export invoice's papers, refund, payment and eBRC in one register.</p>
+      <ul><li>GST</li><li>Bank</li><li>Parties</li><li>Exports</li></ul>
+      <span class="go">Open Assurance Console <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+    <a class="module bridge" href="/bridge/opening.html">
+      <svg class="mark" viewBox="32 24 192 208" aria-hidden="true"><path d="M60 24 H92 V90.67 A38 38 0 0 0 92 161.33 V232 H60 A28 28 0 0 1 32 204 V52 A28 28 0 0 1 60 24 Z"/><path d="M120 24 H196 A28 28 0 0 1 224 52 V204 A28 28 0 0 1 196 232 H120 V161.33 A38 38 0 0 0 120 90.67 Z"/></svg>
+      <h2>Invoice Bridge</h2>
+      <p>Bills, photos and bank statements into Tally. See what was read beside the page, correct it, and post
+        it when you agree.</p>
+      <ul><li>Bills</li><li>Bank statements</li><li>Posting to Tally</li></ul>
+      <span class="go">Open Invoice Bridge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </nav>
+</main>
+
+<footer>
+  <a class="quiet" href="https://draveta.vercel.app" target="_blank" rel="noopener">Developed by Draveta</a>
+  <span class="quiet">Close the window to close the app</span>
+</footer>
+
+<script>
+fetch("/api/health").then(r => r.json()).then(h => { document.getElementById("version").textContent = `Version ${h.version}`; })
+  .catch(() => {});
+// On the office server, only the modules this person may use (app/office/gate.py also refuses the rest).
+fetch("/office/me").then(r => (r.ok ? r.json() : null)).then(me => {
+  if (!me) return;
+  // In the office the one line about nothing leaving is no longer the whole story.
+  document.querySelector(".lede").textContent = "On the office server. The Keeper sends sealed copies of the books to the office's phones; nothing else leaves.";
+  for (const [cls, cap] of [["console", "console"], ["bridge", "tib"]])
+    if (!me.caps.includes(cap)) document.querySelector(`.module.${cls}`)?.remove();
+  if (me.caps.includes("admin")) {           // the Keeper's sync status, on the office server itself
+    const a = Object.assign(document.createElement("a"), { className: "quiet", href: "/keeper", textContent: "Keeper" });
+    document.querySelector("footer").prepend(a);
+  }
+}).catch(() => {});
+
+for (const card of document.querySelectorAll(".module")) {
+  card.addEventListener("click", (e) => {
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || !document.body.animate
+        || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    e.preventDefault();
+    const r = card.getBoundingClientRect(), grow = document.createElement("div");
+    grow.className = "grow";
+    Object.assign(grow.style, { background: getComputedStyle(card).backgroundColor,
+      left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px` });
+    document.body.append(grow);
+    grow.animate([{}, { left: "0px", top: "0px", width: `${innerWidth}px`, height: `${innerHeight}px`, borderRadius: "0px" }],
+      { duration: 420, easing: "cubic-bezier(.65, 0, .35, 1)", fill: "forwards" })
+      .finished.then(() => location.assign(card.href));
+  });
+}
+// Back from a module: the page comes back as it was left, without the grown card over it.
+addEventListener("pageshow", () => document.querySelectorAll(".grow").forEach((g) => g.remove()));
+</script>
+</body>
+</html>

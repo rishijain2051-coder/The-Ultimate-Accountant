@@ -1,0 +1,70 @@
+{
+  "as_of": "2026-09-26",
+  "about": "The export rules the Exports module applies. They changed three times in twelve months, so a change should mean editing a value here, not a new release. Dates are yyyy-mm-dd.",
+
+  "realisation": [
+    {"shipped_from": null, "shipped_to": "2025-11-13", "months": 9,
+     "rule": "FEMA (Export of Goods and Services) Regulations, 2015"},
+    {"shipped_from": "2025-11-14", "shipped_to": "2026-06-04", "months": 15,
+     "rule": "FEMA 23(R)/(7)/2025-RB of 13 Nov 2025"},
+    {"shipped_from": "2026-06-05", "shipped_to": "2026-09-30", "months": 9,
+     "rule": "FEMA 23(R)/(8)/2026-RB of 5 Jun 2026"},
+    {"shipped_from": "2026-10-01", "shipped_to": null, "months": 15, "months_inr": 18,
+     "rule": "FEMA (Export and Import of Goods and Services) Regulations, 2026"}
+  ],
+  "counted_from": "sb_date",
+  "counted_from_choices": {
+    "sb_date": "the shipping bill date",
+    "leo_date": "the let export order date",
+    "bl_date": "the shipped-on-board date on the bill of lading"
+  },
+  "extend_open_before_2025_11_14": false,
+
+  "declaration_limit_inr": 1000000,
+  "declaration_from": "2026-10-01",
+  "advance_or_lc_after_days_overdue": 365,
+  "rule_96b_days": 30,
+
+  "sb005_fee_inr": 1000,
+  "amend_by": "30 November after the end of the financial year",
+
+  "sb_grace_days": 15,
+  "bl_grace_days": 10,
+  "due_soon_days": 90,
+  "bank_charge_tolerance": {"pct": 1.0, "max_fc": 150},
+
+  "ebrc_purpose_codes": {
+    "goods": ["P0102", "P0103", "P0104", "P0109"],
+    "never": ["P0101", "P0108"]
+  },
+  "advance_purpose_codes": ["P0103"],
+
+  "refund_grace_days": 45,
+  "refund_short_tolerance_inr": 100,
+  "dbk_grace_days": 30,
+  "dbk_serious_after_days": 180,
+
+  "icegate_pages": {
+    "about": "Where a shipping bill is looked up on ICEGATE, checked 27 Sep 2026. The public shipping bill enquiry needs no login but asks for a captcha typed by hand; the IGST refund status is only shown after logging in.",
+    "sb_enquiry": "https://foservices.icegate.gov.in/#/public-enquiries/document-status/ds-shipping-bill",
+    "login": "https://foservices.icegate.gov.in/",
+    "igst_path": "Services > Enquiries > ICEGATE Enquiry"
+  },
+
+  "icegate_codes": {
+    "SB000": {"words": "validated", "meaning": "ICEGATE matched the shipping bill with your GSTR-1. The refund goes into a scroll and is paid through PFMS to your bank account.",
+              "todo": "Nothing to fix on ICEGATE. If no money arrives within a month of the scroll, check that your bank account is validated on ICEGATE for refunds."},
+    "SB001": {"words": "shipping bill details wrong in GSTR-1", "meaning": "The shipping bill number, date or port in GSTR-1 Table 6A does not match the shipping bill.",
+              "todo": "Correct Table 6A through Table 9A. It costs nothing."},
+    "SB002": {"words": "EGM not filed", "meaning": "The shipping line or its agent has not filed the export general manifest for this shipment, so customs has no record that the goods left.",
+              "todo": "Ask your forwarder or the shipping line to file (or correct) the EGM. The refund validates by itself once it is in."},
+    "SB003": {"words": "GSTIN mismatch", "meaning": "The GSTIN on the shipping bill is not the GSTIN of the return that reported the invoice.",
+              "todo": "If it is another registration of the same business, give customs an undertaking through the officer interface; if not, correct the return."},
+    "SB004": {"words": "sent twice", "meaning": "The invoice reached ICEGATE a second time after it had already been validated; the first record counts.",
+              "todo": "Nothing, unless the first record was the wrong one."},
+    "SB005": {"words": "invoice number mismatch", "meaning": "The invoice number on the shipping bill and in GSTR-1 Table 6A are not the same, character for character.",
+              "todo": "If Table 6A is wrong, amend it through Table 9A. If the shipping bill is wrong, the fix goes through the port: a letter, the Annexure A table and a ₹1,000 challan per shipping bill."},
+    "SB006": {"words": "gateway EGM not available", "meaning": "The goods left from an inland container depot and the export manifest at the gateway port has not been filed or linked.",
+              "todo": "Ask the shipping line to file the gateway EGM at the port; the depot's shipping bill links to it."}
+  }
+}

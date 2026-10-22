@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-22T00:00:00Z",
+  "title": "Design System: Keeper",
+  "extensions": {
+    "colorMeta": {
+      "tally-bar": { "role": "primary", "displayName": "Tally Bar Yellow", "canonical": "#ffe27a" },
+      "overdue": { "role": "secondary", "displayName": "Overdue Red", "canonical": "#c62828" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#111111" },
+      "ground": { "role": "neutral", "displayName": "Zinc Ground", "canonical": "#f4f4f5" },
+      "line": { "role": "neutral", "displayName": "Hairline", "canonical": "#e4e4e7" }
+    },
+    "shadows": [
+      { "name": "overdue-ring", "value": "inset 0 0 0 2px #c62828", "purpose": "Overdue party's avatar." },
+      { "name": "current-nav-ring", "value": "0 0 0 1px #e4e4e7", "purpose": "Current sidebar item, desktop." }
+    ],
+    "motion": [
+      { "name": "row-bar", "value": "background-color .08s", "purpose": "Yellow bar arriving on a row; none under reduced motion." },
+      { "name": "press", "value": "transform: scale(.98)", "purpose": "Button press; none under reduced motion." },
+      { "name": "top-bar-frost", "value": "saturate(180%) blur(12px) over rgba(255,255,255,.94)", "purpose": "Sticky top bar; solid white under reduced transparency." }
+    ],
+    "breakpoints": [
+      { "name": "tiles", "value": "700px" },
+      { "name": "desktop", "value": "1000px" }
+    ]
+  },
+  "components": [
+    { "name": "Button", "kind": "button", "refersTo": "button", "description": "Default action.",
+      "html": "<button class=\"ds-btn\">All transactions</button>",
+      "css": ".ds-btn{font:inherit;font-weight:600;padding:11px 18px;border-radius:12px;border:1px solid #e4e4e7;background:#fff;color:#111;cursor:pointer}.ds-btn:focus-visible{outline:2px solid #111;outline-offset:2px}.ds-btn:active{transform:scale(.98)}" },
+    { "name": "Primary Button", "kind": "button", "refersTo": "button-primary", "description": "The one main action.",
+      "html": "<button class=\"ds-btn-primary\">Show these dates</button>",
+      "css": ".ds-btn-primary{font:inherit;font-weight:600;padding:11px 18px;border-radius:12px;border:1px solid #111;background:#111;color:#fff;cursor:pointer}.ds-btn-primary:focus-visible{outline:2px solid #111;outline-offset:2px}.ds-btn-primary:active{transform:scale(.98)}" },
+    { "name": "Chips", "kind": "chip", "refersTo": "chip", "description": "Filter pills; current is black.",
+      "html": "<nav class=\"ds-chips\"><a href=\"#\" aria-current=\"true\">This month</a><a href=\"#\">This year</a></nav>",
+      "css": ".ds-chips{display:flex;gap:6px}.ds-chips a{padding:7px 14px;border-radius:999px;background:#fff;border:1px solid #e4e4e7;text-decoration:none;font-size:.875rem;font-weight:500;color:#3f3f46}.ds-chips a[aria-current=true]{background:#111;border-color:#111;color:#fff;font-weight:600}.ds-chips a:focus-visible{outline:2px solid #111;outline-offset:2px}" },
+    { "name": "Field", "kind": "input", "refersTo": "field", "description": "Search and date fields.",
+      "html": "<input class=\"ds-field\" type=\"search\" placeholder=\"Find a party\">",
+      "css": ".ds-field{font:inherit;width:100%;padding:11px 14px;border-radius:12px;border:1px solid #e4e4e7;background:#fff;color:#111}.ds-field:focus{outline:2px solid #111;outline-offset:0;border-color:transparent}" },
+    { "name": "Balance Block", "kind": "card", "refersTo": "balance-block", "description": "Summary's black You'll get / You'll give split.",
+      "html": "<div class=\"ds-balance\"><a href=\"#\"><div class=\"k\">You'll get</div><div class=\"v\">₹4,82,300</div><div class=\"n late\">₹1,20,000 overdue</div></a><a href=\"#\"><div class=\"k\">You'll give</div><div class=\"v\">₹2,10,450</div><div class=\"n\">nothing overdue</div></a></div>",
+      "css": ".ds-balance{background:#111;color:#fff;border-radius:16px;padding:18px;display:grid;grid-template-columns:1fr 1fr;font-variant-numeric:tabular-nums}.ds-balance a{color:#fff;text-decoration:none;padding:4px 2px;border-radius:10px}.ds-balance a+a{border-left:1px solid rgba(255,255,255,.16);padding-left:16px}.ds-balance a:hover,.ds-balance a:active{background:#ffe27a;color:#111}.ds-balance .k,.ds-balance .n{font-size:.8125rem;color:rgba(255,255,255,.66)}.ds-balance .v{font-size:1.5rem;font-weight:700;letter-spacing:-.015em}.ds-balance .n.late{color:#ffb4ab}" },
+    { "name": "Entries Card", "kind": "card", "refersTo": "entry-row", "description": "Rows in a white card; avatar, what, amount, chevron; yellow bar on the current row.",
+      "html": "<div class=\"ds-entries\"><a class=\"ds-entry\" href=\"#\"><span class=\"ds-mark late\">SG</span><span class=\"w\"><b>Shah Garments</b><small>3 bills, oldest 41 days</small></span><b>₹1,20,000</b></a><a class=\"ds-entry on\" href=\"#\"><span class=\"ds-mark\">MT</span><span class=\"w\"><b>Kiran Traders</b><small>1 bill</small></span><b>₹38,500</b></a></div>",
+      "css": ".ds-entries{background:#fff;border:1px solid #e4e4e7;border-radius:16px;overflow:hidden;font-variant-numeric:tabular-nums}.ds-entry{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:0 12px;align-items:center;padding:12px 14px;color:#111;text-decoration:none;transition:background-color .08s}.ds-entry+.ds-entry{border-top:1px solid #e4e4e7}.ds-entry:hover{background:#f4f4f5}.ds-entry.on,.ds-entry:active{background:#ffe27a}.ds-entry small{display:block;font-size:.8125rem;color:#71717a}.ds-entry.on small{color:#3f3a1e}.ds-mark{width:36px;height:36px;border-radius:50%;background:#f4f4f5;color:#3f3f46;display:grid;place-items:center;font-size:.8125rem;font-weight:700}.ds-mark.late{box-shadow:inset 0 0 0 2px #c62828;color:#c62828;background:#fdecea}" },
+    { "name": "Key Bar Button", "kind": "nav", "refersTo": "key-button", "description": "Desktop key bar entry, Tally style.",
+      "html": "<button class=\"ds-key\"><kbd>D</kbd>Dues</button>",
+      "css": ".ds-key{display:flex;align-items:center;gap:10px;width:190px;font:inherit;font-size:.875rem;color:#3f3f46;background:#fff;border:1px solid #e4e4e7;border-radius:8px;padding:7px 10px;cursor:pointer}.ds-key:hover{background:#ffe27a;border-color:#ffe27a;color:#111}.ds-key:focus-visible{outline:2px solid #111;outline-offset:2px}.ds-key kbd{font:700 .75rem/1 ui-monospace,Consolas,monospace;min-width:34px;padding:4px 6px;border-radius:5px;background:#f4f4f5;border:1px solid #d4d4d8;text-align:center;color:#111}" }
+  ],
+  "narrative": {
+    "northStar": "Tally, in your pocket",
+    "rules": [
+      { "name": "The One Bar Rule", "body": "Tally yellow means \"you are here\" and nothing else. A plain hover on a list row is ground grey, not yellow. Yellow appears on the row only when it becomes current (arrow keys, press). It is never used for a status, a badge or decoration.", "section": "colors" },
+      { "name": "The Red Means Late Rule", "body": "Red is for overdue only. Errors on the office page use the same red (--bad) because they are the same kind of alarm. Red is never used for emphasis, brand or negative amounts in general.", "section": "colors" },
+      { "name": "The Weight Not Family Rule", "body": "Use one sans family. Make things more important with weight, and quieter with ink-3.", "section": "typography" },
+      { "name": "The Hairline Not Shadow Rule", "body": "Separate things with a 1px line (line), not a shadow.", "section": "elevation" }
+    ]
+  }
+}

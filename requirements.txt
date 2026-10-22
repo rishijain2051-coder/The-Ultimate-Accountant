@@ -1,0 +1,64 @@
+# Ultimate Accountant: every package, at the exact version both self-checks
+# passed against (python -m app.backend.selftest, and app/bridge/tests/*.py).
+# Install with:  python -m pip install -r requirements.txt
+#
+# Generated from .venv with:  python -m pip freeze
+# Do not hand-edit versions: upgrade in the venv, re-run both self-checks, re-freeze.
+#
+# Everything runs on this computer. The OCR models ship inside the rapidocr
+# wheel; the window is pywebview over WebView2 (pinned: launch.py adjusts two
+# of its internals); without WebView2 the browser is used.
+# PostgreSQL for the Invoice Bridge (multi-user) also needs:  pip install psycopg2-binary
+annotated-doc==0.0.5
+annotated-types==0.8.0
+anyio==4.15.1
+bottle==0.13.4
+certifi==2026.7.22
+cffi==2.1.1
+charset-normalizer==3.5.1
+click==8.5.0
+clr_loader==0.3.1
+cryptography==50.0.1
+et_xmlfile==2.0.0
+fastapi==0.141.1
+flatbuffers==25.12.19
+h11==0.16.0
+httpcore==1.0.9
+httptools==0.8.0
+httpx==0.28.1
+idna==3.20
+numpy==2.5.3
+onnxruntime==1.30.0
+opencv-python==5.0.0.93
+openpyxl==3.1.5
+packaging==26.3
+pdfminer.six==20260107
+pdfplumber==0.11.10
+pillow==12.3.0
+protobuf==7.36.2
+proxy_tools==0.1.0
+pyclipper==1.4.0
+pycparser==3.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
+pydantic_core==2.46.5
+pymupdf==1.28.2
+pypdfium2==5.13.0
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.3
+python-multipart==0.0.32
+pythonnet==3.1.0
+pywebview==6.2.1
+PyYAML==6.0.3
+RapidFuzz==3.14.6
+rapidocr-onnxruntime==1.2.3
+reportlab==5.0.1
+shapely==2.1.2
+six==1.17.0
+SQLAlchemy==2.1.1
+starlette==1.7.0
+typing-inspection==0.4.4
+typing_extensions==4.16.0
+uvicorn==0.54.0
+watchfiles==1.3.0
+websockets==17.1

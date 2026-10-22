@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-25T15:26:04.361742+00:00",
+  "title": "Design System: Assurance Console",
+  "extensions": {
+    "colorMeta": {
+      "cover": {
+        "role": "primary",
+        "displayName": "Cloth Cover Maroon",
+        "canonical": "#74191f",
+        "oklch": "oklch(37.1% 0.125 22.5)",
+        "tonalRamp": [
+          "oklch(15% 0.060 22.5)",
+          "oklch(25% 0.125 22.5)",
+          "oklch(35% 0.125 22.5)",
+          "oklch(45% 0.125 22.5)",
+          "oklch(58% 0.125 22.5)",
+          "oklch(70% 0.125 22.5)",
+          "oklch(82% 0.125 22.5)",
+          "oklch(95% 0.125 22.5)"
+        ]
+      },
+      "cover-deep": {
+        "role": "primary",
+        "displayName": "Cover Shadow Maroon",
+        "canonical": "#58121a",
+        "oklch": "oklch(30.8% 0.101 19.4)",
+        "tonalRamp": [
+          "oklch(15% 0.060 19.4)",
+          "oklch(25% 0.101 19.4)",
+          "oklch(35% 0.101 19.4)",
+          "oklch(45% 0.101 19.4)",
+          "oklch(58% 0.101 19.4)",
+          "oklch(70% 0.101 19.4)",
+          "oklch(82% 0.101 19.4)",
+          "oklch(95% 0.101 19.4)"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Turmeric Gold",
+        "canonical": "#e9c46a",
+        "oklch": "oklch(83.4% 0.117 87.4)",
+        "tonalRamp": [
+          "oklch(15% 0.060 87.4)",
+          "oklch(25% 0.117 87.4)",
+          "oklch(35% 0.117 87.4)",
+          "oklch(45% 0.117 87.4)",
+          "oklch(58% 0.117 87.4)",
+          "oklch(70% 0.117 87.4)",
+          "oklch(82% 0.117 87.4)",
+          "oklch(95% 0.117 87.4)"
+        ]
+      },
+      "gold-ink": {
+        "role": "secondary",
+        "displayName": "Ribbon Gold",
+        "canonical": "#9a6a00",
+        "oklch": "oklch(56.0% 0.117 77.5)",
+        "tonalRamp": [
+          "oklch(15% 0.060 77.5)",
+          "oklch(25% 0.117 77.5)",
+          "oklch(35% 0.117 77.5)",
+          "oklch(45% 0.117 77.5)",
+          "oklch(58% 0.117 77.5)",
+          "oklch(70% 0.117 77.5)",
+          "oklch(82% 0.117 77.5)",
+          "oklch(95% 0.117 77.5)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Page White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(25% 0.000 89.9)",
+          "oklch(35% 0.000 89.9)",
+          "oklch(45% 0.000 89.9)",
+          "oklch(58% 0.000 89.9)",
+          "oklch(70% 0.000 89.9)",
+          "oklch(82% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "wash": {
+        "role": "neutral",
+        "displayName": "Blotter Wash",
+        "canonical": "#f5f6f8",
+        "oklch": "oklch(97.3% 0.003 264.5)",
+        "tonalRamp": [
+          "oklch(15% 0.003 264.5)",
+          "oklch(25% 0.003 264.5)",
+          "oklch(35% 0.003 264.5)",
+          "oklch(45% 0.003 264.5)",
+          "oklch(58% 0.003 264.5)",
+          "oklch(70% 0.003 264.5)",
+          "oklch(82% 0.003 264.5)",
+          "oklch(95% 0.003 264.5)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Faint Blue-Grey Ruling",
+        "canonical": "#dfe5ec",
+        "oklch": "oklch(91.9% 0.012 252.1)",
+        "tonalRamp": [
+          "oklch(15% 0.012 252.1)",
+          "oklch(25% 0.012 252.1)",
+          "oklch(35% 0.012 252.1)",
+          "oklch(45% 0.012 252.1)",
+          "oklch(58% 0.012 252.1)",
+          "oklch(70% 0.012 252.1)",
+          "oklch(82% 0.012 252.1)",
+          "oklch(95% 0.012 252.1)"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Ruling",
+        "canonical": "#c3cdd8",
+        "oklch": "oklch(84.4% 0.019 250.6)",
+        "tonalRamp": [
+          "oklch(15% 0.019 250.6)",
+          "oklch(25% 0.019 250.6)",
+          "oklch(35% 0.019 250.6)",
+          "oklch(45% 0.019 250.6)",
+          "oklch(58% 0.019 250.6)",
+          "oklch(70% 0.019 250.6)",
+          "oklch(82% 0.019 250.6)",
+          "oklch(95% 0.019 250.6)"
+        ]
+      },
+      "margin-rule": {
+        "role": "neutral",
+        "displayName": "Rose Margin Rule",
+        "canonical": "#e6aeb3",
+        "oklch": "oklch(80.4% 0.066 12.7)",
+        "tonalRamp": [
+          "oklch(15% 0.060 12.7)",
+          "oklch(25% 0.066 12.7)",
+          "oklch(35% 0.066 12.7)",
+          "oklch(45% 0.066 12.7)",
+          "oklch(58% 0.066 12.7)",
+          "oklch(70% 0.066 12.7)",
+          "oklch(82% 0.066 12.7)",
+          "oklch(95% 0.066 12.7)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1c1e23",
+        "oklch": "oklch(23.5% 0.010 268.3)",
+        "tonalRamp": [
+          "oklch(15% 0.010 268.3)",
+          "oklch(25% 0.010 268.3)",
+          "oklch(35% 0.010 268.3)",
+          "oklch(45% 0.010 268.3)",
+          "oklch(58% 0.010 268.3)",
+          "oklch(70% 0.010 268.3)",
+          "oklch(82% 0.010 268.3)",
+          "oklch(95% 0.010 268.3)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Second Ink",
+        "canonical": "#454a54",
+        "oklch": "oklch(40.8% 0.018 264.4)",
+        "tonalRamp": [
+          "oklch(15% 0.018 264.4)",
+          "oklch(25% 0.018 264.4)",
+          "oklch(35% 0.018 264.4)",
+          "oklch(45% 0.018 264.4)",
+          "oklch(58% 0.018 264.4)",
+          "oklch(70% 0.018 264.4)",
+          "oklch(82% 0.018 264.4)",
+          "oklch(95% 0.018 264.4)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Pencil Grey",
+        "canonical": "#626773",
+        "oklch": "oklch(51.4% 0.020 267.6)",
+        "tonalRamp": [
+          "oklch(15% 0.020 267.6)",
+          "oklch(25% 0.020 267.6)",
+          "oklch(35% 0.020 267.6)",
+          "oklch(45% 0.020 267.6)",
+          "oklch(58% 0.020 267.6)",
+          "oklch(70% 0.020 267.6)",
+          "oklch(82% 0.020 267.6)",
+          "oklch(95% 0.020 267.6)"
+        ]
+      },
+      "ok": {
+        "role": "tertiary",
+        "displayName": "Settled Green",
+        "canonical": "#1f7a4d",
+        "oklch": "oklch(51.5% 0.110 156.8)",
+        "tonalRamp": [
+          "oklch(15% 0.060 156.8)",
+          "oklch(25% 0.110 156.8)",
+          "oklch(35% 0.110 156.8)",
+          "oklch(45% 0.110 156.8)",
+          "oklch(58% 0.110 156.8)",
+          "oklch(70% 0.110 156.8)",
+          "oklch(82% 0.110 156.8)",
+          "oklch(95% 0.110 156.8)"
+        ]
+      },
+      "ok-wash": {
+        "role": "tertiary",
+        "displayName": "Settled Wash",
+        "canonical": "#e8f3ec",
+        "oklch": "oklch(95.4% 0.015 158.2)",
+        "tonalRamp": [
+          "oklch(15% 0.015 158.2)",
+          "oklch(25% 0.015 158.2)",
+          "oklch(35% 0.015 158.2)",
+          "oklch(45% 0.015 158.2)",
+          "oklch(58% 0.015 158.2)",
+          "oklch(70% 0.015 158.2)",
+          "oklch(82% 0.015 158.2)",
+          "oklch(95% 0.015 158.2)"
+        ]
+      },
+      "look": {
+        "role": "tertiary",
+        "displayName": "Needs-a-Look Amber",
+        "canonical": "#c98a1c",
+        "oklch": "oklch(68.0% 0.136 74.6)",
+        "tonalRamp": [
+          "oklch(15% 0.060 74.6)",
+          "oklch(25% 0.136 74.6)",
+          "oklch(35% 0.136 74.6)",
+          "oklch(45% 0.136 74.6)",
+          "oklch(58% 0.136 74.6)",
+          "oklch(70% 0.136 74.6)",
+          "oklch(82% 0.136 74.6)",
+          "oklch(95% 0.136 74.6)"
+        ]
+      },
+      "look-ink": {
+        "role": "tertiary",
+        "displayName": "Amber Ink",
+        "canonical": "#875800",
+        "oklch": "oklch(50.0% 0.106 73.3)",
+        "tonalRamp": [
+          "oklch(15% 0.060 73.3)",
+          "oklch(25% 0.106 73.3)",
+          "oklch(35% 0.106 73.3)",
+          "oklch(45% 0.106 73.3)",
+          "oklch(58% 0.106 73.3)",
+          "oklch(70% 0.106 73.3)",
+          "oklch(82% 0.106 73.3)",
+          "oklch(95% 0.106 73.3)"
+        ]
+      },
+      "look-wash": {
+        "role": "tertiary",
+        "displayName": "Amber Wash",
+        "canonical": "#fcf3e0",
+        "oklch": "oklch(96.6% 0.027 85.7)",
+        "tonalRamp": [
+          "oklch(15% 0.027 85.7)",
+          "oklch(25% 0.027 85.7)",
+          "oklch(35% 0.027 85.7)",
+          "oklch(45% 0.027 85.7)",
+          "oklch(58% 0.027 85.7)",
+          "oklch(70% 0.027 85.7)",
+          "oklch(82% 0.027 85.7)",
+          "oklch(95% 0.027 85.7)"
+        ]
+      },
+      "serious": {
+        "role": "tertiary",
+        "displayName": "Serious Red",
+        "canonical": "#b42318",
+        "oklch": "oklch(50.0% 0.182 29.5)",
+        "tonalRamp": [
+          "oklch(15% 0.060 29.5)",
+          "oklch(25% 0.160 29.5)",
+          "oklch(35% 0.160 29.5)",
+          "oklch(45% 0.160 29.5)",
+          "oklch(58% 0.160 29.5)",
+          "oklch(70% 0.160 29.5)",
+          "oklch(82% 0.160 29.5)",
+          "oklch(95% 0.160 29.5)"
+        ]
+      },
+      "serious-wash": {
+        "role": "tertiary",
+        "displayName": "Serious Wash",
+        "canonical": "#fbebe9",
+        "oklch": "oklch(95.2% 0.018 26.1)",
+        "tonalRamp": [
+          "oklch(15% 0.018 26.1)",
+          "oklch(25% 0.018 26.1)",
+          "oklch(35% 0.018 26.1)",
+          "oklch(45% 0.018 26.1)",
+          "oklch(58% 0.018 26.1)",
+          "oklch(70% 0.018 26.1)",
+          "oklch(82% 0.018 26.1)",
+          "oklch(95% 0.018 26.1)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "verdict": {
+        "displayName": "Verdict",
+        "purpose": "The one sentence opening each part and screen; 1.625rem under 900px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads on the sheet."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sub-sections and the working overlay heading."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Sentence under the verdict with figures and coloured counts."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Everything else; tabular numerals inherited."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Margin heads, field labels, table headers, why-terms. Sentence case."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "Gold uppercase lettering in the cover band only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "cover-edge",
+        "value": "inset 0 -1px 0 rgba(233,196,106,.6), 0 1px 0 #58121a",
+        "purpose": "Gold stitch along the cover band."
+      },
+      {
+        "name": "menu-lift",
+        "value": "0 10px 24px -10px rgba(28,30,35,.45)",
+        "purpose": "Run switcher menu."
+      },
+      {
+        "name": "overlay-lift",
+        "value": "0 12px 28px -12px rgba(28,30,35,.45)",
+        "purpose": "Working card."
+      },
+      {
+        "name": "toast-lift",
+        "value": "0 14px 32px -14px rgba(0,0,0,.5)",
+        "purpose": "Toasts."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "All eased motion: tick draw, reveal, toast rise, chevron turn."
+      },
+      {
+        "name": "tick-draw",
+        "value": ".42s",
+        "purpose": "The auditor's tick stroke drawing in."
+      },
+      {
+        "name": "reveal",
+        "value": ".22s",
+        "purpose": "Opened entry working and toast rise."
+      },
+      {
+        "name": "hover",
+        "value": ".15s",
+        "purpose": "Button background and border colour."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Default labelled action.",
+      "html": "<button class=\"ds-btn\">I am chasing this</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid var(--rule-strong,#c3cdd8);border-radius:4px;background:var(--paper,#fff);color:var(--ink,#1c1e23);font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif;font-weight:600;cursor:pointer;transition:background-color .15s,border-color .15s}.ds-btn:hover{background:var(--wash,#f5f6f8);border-color:var(--ink-3,#626773)}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:2px}"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action in a group.",
+      "html": "<button class=\"ds-btn-primary\">Check these files</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;padding:9px 16px;border:1px solid var(--cover,#74191f);border-radius:4px;background:var(--cover,#74191f);color:#fff;font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif;font-weight:600;cursor:pointer;transition:background-color .15s,border-color .15s}.ds-btn-primary:hover{background:var(--cover-deep,#58121a);border-color:var(--cover-deep,#58121a)}.ds-btn-primary:active{transform:translateY(1px)}.ds-btn-primary:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:2px}"
+    },
+    {
+      "name": "Link Button",
+      "kind": "button",
+      "refersTo": "link",
+      "description": "Secondary action as maroon underlined text.",
+      "html": "<button class=\"ds-link\">Add another check to this run</button>",
+      "css": ".ds-link{padding:0;border:0;background:none;color:var(--cover,#74191f);font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}.ds-link:hover{text-decoration-thickness:2px}.ds-link:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:2px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labelled field.",
+      "html": "<label class=\"ds-field\"><span>Their email</span><input type=\"email\" placeholder=\"accounts@example.com\"></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:5px;font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif}.ds-field span{font-size:.8125rem;font-weight:700;color:var(--ink-2,#454a54)}.ds-field input{padding:8px 10px;border:1px solid var(--rule-strong,#c3cdd8);border-radius:4px;background:#fff;color:var(--ink,#1c1e23);font:inherit}.ds-field input:hover{border-color:var(--ink-3,#626773)}.ds-field input:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:2px}"
+    },
+    {
+      "name": "Cover Band",
+      "kind": "nav",
+      "refersTo": "cover-band",
+      "description": "Maroon cover with gold wordmark, run switcher and the gold action.",
+      "html": "<header class=\"ds-cover\"><a class=\"ds-wm\" href=\"#\">Assurance Console</a><button class=\"ds-run\">KESARI TEXTILE MILLS · FY 2025-26</button><nav><a href=\"#\">Settings</a><a class=\"ds-gold\" href=\"#\">Start a new check</a></nav></header>",
+      "css": ".ds-cover{display:flex;align-items:center;gap:20px;height:56px;padding:0 24px;background:var(--cover,#74191f);color:#fff;font:400 .9375rem 'Segoe UI',system-ui,sans-serif;box-shadow:inset 0 -1px 0 rgba(233,196,106,.6),0 1px 0 #58121a}.ds-wm{color:var(--gold,#e9c46a);text-decoration:none;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase}.ds-run{padding:6px 12px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:transparent;color:#fff;font:inherit;cursor:pointer}.ds-run:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5)}.ds-cover nav{display:flex;gap:20px;align-items:center;margin-left:auto}.ds-cover nav a{color:#fff;text-decoration:none}.ds-cover nav a:hover{text-decoration:underline}.ds-cover .ds-gold{padding:7px 14px;border-radius:4px;background:var(--gold,#e9c46a);color:var(--cover-deep,#58121a);font-weight:700}.ds-cover .ds-gold:hover{background:#f1d388;text-decoration:none}.ds-cover :focus-visible{outline:2px solid var(--gold,#e9c46a);outline-offset:2px}"
+    },
+    {
+      "name": "Margin Tabs",
+      "kind": "nav",
+      "refersTo": "margin-tabs",
+      "description": "Part tabs with open counts and the gold ribbon on the current part.",
+      "html": "<ul class=\"ds-parts\"><li><a href=\"#\" aria-current=\"page\"><span>GST purchases</span><span class=\"n\">122</span></a></li><li><a href=\"#\"><span>Bank · State Bank of India</span><span class=\"n\">26</span></a></li></ul>",
+      "css": ".ds-parts{list-style:none;margin:0;padding:0;width:180px;font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif}.ds-parts a{position:relative;display:flex;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;border-radius:3px;color:var(--ink,#1c1e23);text-decoration:none}.ds-parts a:hover{background:var(--wash,#f5f6f8)}.ds-parts a[aria-current=page]{background:var(--wash,#f5f6f8);font-weight:700}.ds-parts a[aria-current=page]::before{content:'';position:absolute;left:0;top:4px;bottom:0;width:6px;background:var(--gold-ink,#9a6a00);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}.ds-parts .n{color:var(--ink-3,#626773);font-size:.8125rem;font-weight:600}.ds-parts a:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:2px}"
+    },
+    {
+      "name": "Entry Line",
+      "kind": "custom",
+      "refersTo": "entry-line",
+      "description": "Open entry (amber dot) and a ticked-off entry (drawn tick, struck through, grey).",
+      "html": "<ul class=\"ds-entries\"><li><button class=\"ds-line\"><i class=\"ds-dot\"></i><span class=\"d\">21 Jan 26</span><span><b>Same supplier and amount, but your entry is numbered CI5003 while the bill is 25-26-0242.</b><small>CHANDANI INDUSTRIES · no. 25-26-0242</small></span><span class=\"a\">₹1,237.60</span></button></li><li class=\"done\"><button class=\"ds-line\"><span class=\"ds-tick\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l4 4 8-9\"/></svg></span><span class=\"d\">15 Sep 25</span><span><b>Same bill number on both sides, but the amounts differ by ₹2,303.</b><small>UDAIGARH THREAD MILLS · no. 25-26/383</small></span><span class=\"a\">₹3,78,003.56</span></button></li></ul>",
+      "css": ".ds-entries{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-strong,#c3cdd8);font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif;font-variant-numeric:tabular-nums}.ds-entries li{border-bottom:1px solid var(--rule,#dfe5ec)}.ds-line{display:grid;grid-template-columns:20px 74px minmax(0,1fr) auto;gap:0 14px;align-items:start;width:100%;padding:13px 6px;border:0;background:none;text-align:left;font:inherit;color:var(--ink,#1c1e23);cursor:pointer}.ds-line:hover{background:var(--wash,#f5f6f8)}.ds-line:focus-visible{outline:2px solid var(--focus,#74191f);outline-offset:-2px}.ds-dot{display:block;width:10px;height:10px;margin:6px auto;border-radius:50%;background:var(--look,#c98a1c)}.ds-line .d{font-size:.8125rem;color:var(--ink-3,#626773)}.ds-line b{display:block}.ds-line small{display:block;font-size:.8125rem;color:var(--ink-3,#626773)}.ds-line .a{font-weight:700;white-space:nowrap}.ds-tick svg{width:20px;height:20px;fill:none;stroke:var(--ok,#1f7a4d);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.done b{color:var(--ink-2,#454a54);text-decoration:line-through;text-decoration-color:var(--ink-3,#626773)}.done .a{color:var(--ink-3,#626773)}"
+    },
+    {
+      "name": "Colour Key",
+      "kind": "custom",
+      "refersTo": "colour-key",
+      "description": "Always-visible key to the auditor's pen.",
+      "html": "<dl class=\"ds-key\"><div><dt><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 10.5l4 4 8-9\"/></svg></dt><dd>Matches, or you have ticked it off</dd></div><div><dt><i class=\"l\"></i></dt><dd>Needs a look</dd></div><div><dt><i class=\"s\"></i></dt><dd>Serious: money at risk</dd></div></dl>",
+      "css": ".ds-key{margin:0;padding-top:14px;border-top:1px solid var(--rule,#dfe5ec);font:400 .8125rem/1.55 'Segoe UI',system-ui,sans-serif;color:var(--ink-2,#454a54)}.ds-key div{display:flex;gap:10px;align-items:center;padding:3px 0}.ds-key dt{display:inline-grid;place-items:center;width:16px;height:16px}.ds-key dd{margin:0}.ds-key i{display:block;width:10px;height:10px;border-radius:50%}.ds-key .l{background:var(--look,#c98a1c)}.ds-key .s{background:var(--serious,#b42318)}.ds-key svg{width:16px;height:16px;fill:none;stroke:var(--ok,#1f7a4d);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}"
+    },
+    {
+      "name": "Ledger Total",
+      "kind": "custom",
+      "refersTo": "ledger",
+      "description": "Balancing working closed by the single-over-double ink rule.",
+      "html": "<table class=\"ds-ledger\"><tr><th>Balance in your books</th><td>₹4,12,500.00</td></tr><tr><th>Cheques not yet cleared</th><td>₹18,200.00</td></tr><tr class=\"c\"><th>Balance the bank shows</th><td>₹4,30,700.00</td></tr></table>",
+      "css": ".ds-ledger{width:100%;max-width:560px;border-collapse:collapse;font:400 .9375rem/1.55 'Segoe UI',system-ui,sans-serif;font-variant-numeric:tabular-nums;color:var(--ink,#1c1e23)}.ds-ledger tr{border-bottom:1px solid var(--rule,#dfe5ec)}.ds-ledger th{padding:8px 16px 8px 0;text-align:left;font-weight:500}.ds-ledger td{padding:8px 0;text-align:right;font-weight:700;white-space:nowrap}.ds-ledger tr.c{border-top:1.5px solid var(--ink,#1c1e23);border-bottom:3px double var(--ink,#1c1e23)}.ds-ledger tr.c th{font-weight:700}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bahi-Khata Page",
+    "overview": "The app is a red cloth-bound ledger book opened on a desk. A deep maroon cover band with turmeric-gold lettering runs across the top; beneath it lies one white ruled page, split by a double rose margin rule into a narrow margin column and the sheet. Everything on the sheet is written, not charted: a verdict sentence, a lede with the counts inline, ruled ledger tables whose totals carry the accountant's single-over-double rule, and a list of open entries where each line states in one plain sentence why it is still open.\n\nColour is disciplined. Maroon and gold belong to the binding (cover band, primary action, the \"you are here\" marker). Everything else on the page is ink on paper, and the only other colours are the auditor's pen: green for settled, amber for needs a look, red for money at risk. One light theme only, chosen for daylight offices and printed pages. The type is the system sans with tabular figures everywhere, because the product commits to shipping no web fonts (PRODUCT.md, \"Offline and light\").\n\nThe page is dense but calm: rows are separated by hairline rules rather than boxed, the sheet has a readable measure (940px), and the page prints cleanly with the chrome removed.",
+    "keyCharacteristics": [
+      "Maroon cover band, gold wordmark, white ruled page, double rose margin rule.",
+      "Verdict first: every part opens with one sentence that states the outcome.",
+      "Three-colour auditor's pen (green, amber, red) with the key always visible.",
+      "Hairline rules, not cards; ledger totals with a rule above and a double rule below.",
+      "The auditor's tick: a drawn green tick and a struck-through line when an entry is marked done.",
+      "Words, not icons: every control is a labelled button or link."
+    ],
+    "rules": [
+      {
+        "name": "The Auditor's Pen Rule",
+        "body": "Green, amber and red mean settled, needs a look and serious, and nothing else. They never decorate.",
+        "section": "colors"
+      },
+      {
+        "name": "The Settled-Is-Grey Rule",
+        "body": "An entry the user has ticked off counts as settled: its reason is struck through in pencil grey and its amount turns grey. The verdict counts only what is left to do.",
+        "section": "colors"
+      },
+      {
+        "name": "The Binding Rule",
+        "body": "Maroon and gold belong to the book's binding and to \"act here / you are here\". They are never used to signal a finding.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "`font-variant-numeric: tabular-nums` is set on the body; every figure inherits it. Money sits right-aligned in its own column, bold.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Rule",
+        "body": "The reason for an entry is a full sentence in bold ink, never a code or a status chip.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper-Is-Flat Rule",
+        "body": "Nothing that sits on the page casts a shadow. Only the menu, the working overlay and toasts float.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** open every part and screen with one verdict sentence (34px bold) before any table.",
+      "**Do** give every open entry its own plain-sentence reason in bold ink, with amount right-aligned in tabular figures.",
+      "**Do** keep the colour key visible wherever the pen colours appear: margin on desktop, inline under \"Needs a look\" on phones.",
+      "**Do** show ticked-off entries as settled: struck through and grey, counted with the settled.",
+      "**Do** write every action as a labelled button that says what it does.",
+      "**Do** separate rows with the faint blue-grey hairline and close totals with a rule above and a double rule below.",
+      "**Do** put counts in the lede as a coloured sentence (\"n settled, n need a look, n serious\")."
+    ],
+    "donts": [
+      "**Don't** use icon-only controls; an icon may accompany a label (the chevron, the tick), never replace it.",
+      "**Don't** use green, amber or red for anything but settled, needs a look and serious.",
+      "**Don't** add charts, proportion bars, KPI cards or status chips; the counts are words.",
+      "**Don't** box content in cards or give on-page elements shadows; only the menu, the working overlay and toasts float.",
+      "**Don't** add a dark theme or web fonts."
+    ]
+  }
+}

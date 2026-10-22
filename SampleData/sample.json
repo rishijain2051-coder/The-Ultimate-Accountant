@@ -1,0 +1,11 @@
+{
+  "entity_name": "KESARI TEXTILE MILLS PRIVATE LIMITED",
+  "entity_short": "KESARI TEXTILE MILLS",
+  "gstin": "08AMHCK7032W1ZX",
+  "address": "Plot 41, Sitapura Industrial Area, Jaipur 302022, Rajasthan",
+  "fy_start": 2025,
+  "party": "DUNGARPUR FABRICATORS",
+  "party_gstin": "06VYDCD1761U1Z7",
+  "generated_by": "tools/generate_sample_data.py",
+  "seed": 20260401
+}

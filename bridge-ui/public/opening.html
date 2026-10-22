@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoice Bridge</title>
+<!-- The Invoice Bridge's opening, played when it is chosen in Ultimate Accountant
+     (app/home.html, or Assurance Console's Switch link): Invoice Bridge's
+     start-up screen, which its launcher used to show while the app started. It
+     asks the bridge whether Tally and the AI answer, then opens the bridge
+     through its round mark. A reload inside the bridge never comes back here.
+     Everything that moves is its own layer and moves only by transform and
+     opacity, so the GPU's compositor draws it even while the AI and the app
+     are busy starting on the same, capped, CPU. -->
+<style>
+@font-face { font-family: "Newsreader"; src: url("/bridge/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight: 200 800; }
+:root {
+  --ink: #1C1E23; --gold: #E9C46A; --muted: #a9a293;
+  --app-bg: #f7f6f3; /* the app's own page, so the reveal hands over without a seam */
+}
+@media (prefers-color-scheme: dark) { :root { --app-bg: #191919; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--ink); color: var(--gold); cursor: progress; }
+::selection { background: var(--gold); color: var(--ink); }
+
+/* Ledger rules drifting upward, faint: the paper the bills are written on. */
+.rules { position: fixed; inset: -64px 0 0; opacity: 0; will-change: transform, opacity;
+  background: repeating-linear-gradient(to bottom, transparent 0 31px, rgb(233 196 106 / 0.06) 31px 32px); }
+.vignette { position: fixed; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 46%, transparent 0, var(--ink) 78%); }
+
+.stage { position: fixed; inset: 0; display: grid; place-items: center; }
+.lockup { display: grid; justify-items: center; gap: 34px; translate: 0 -2vh; }
+.mark { position: relative; width: min(176px, 30vmin); aspect-ratio: 1; transform-origin: 40.625% 49.219%; will-change: transform; }
+.mark > * { position: absolute; will-change: transform, opacity; }
+.half { inset: 0; width: 100%; height: 100%; fill: var(--gold); overflow: visible; }
+.stub { transform-origin: 37.109% 50%; }
+.bill { transform-origin: 44.141% 50%; }
+.chad { left: 29.492%; top: 38.086%; width: 22.266%; aspect-ratio: 1; border-radius: 50%; background: var(--gold); }
+.ring { left: 29.883%; top: 38.477%; width: 21.484%; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--gold); opacity: 0; }
+.scan { left: 40.137%; top: 12.5%; width: 0.977%; height: 75%; border-radius: 2px; background: var(--gold); transform-origin: top; }
+.word { margin: 0; font: 500 clamp(40px, 6.4vw, 64px)/1 "Newsreader", Georgia, serif; letter-spacing: -0.02em;
+  color: var(--gold); will-change: transform, opacity; }
+.status { font: 400 15px/1 "Newsreader", Georgia, serif; letter-spacing: 0.01em; color: var(--muted);
+  height: 18px; position: relative; width: 320px; text-align: center; margin-top: -10px; }
+.status span { position: absolute; inset: 0; opacity: 0; }
+.reveal { position: fixed; left: 0; top: 0; border-radius: 50%; background: var(--app-bg); opacity: 0; pointer-events: none; will-change: transform; }
+
+/* Until the first frame is on screen nothing shows; the script starts it all. */
+.waiting .mark > *, .waiting .word, .waiting .status { opacity: 0; }
+</style></head>
+<body class="waiting">
+<div class="rules" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<main class="stage">
+  <div class="lockup" role="status" aria-live="polite">
+    <div class="mark" aria-hidden="true">
+      <!-- The brand's own halves, each with its half of the round mark, so the halves carry it when they part. -->
+      <svg class="half stub" viewBox="0 0 256 256"><path d="M64 32 H95 V100.01 A27.5 27.5 0 0 0 95 151.99 V224 H64 A24 24 0 0 1 40 200 V56 A24 24 0 0 1 64 32 Z"/></svg>
+      <svg class="half bill" viewBox="0 0 256 256"><path d="M113 32 H192 A24 24 0 0 1 216 56 V200 A24 24 0 0 1 192 224 H113 V151.99 A27.5 27.5 0 0 0 113 100.01 Z"/></svg>
+      <div class="chad"></div><!-- the piece the punch takes out -->
+      <div class="ring"></div>
+      <div class="scan"></div>
+    </div>
+    <p class="word">Invoice Bridge</p>
+    <div class="status"><span>Looking for Tally and the AI</span><span>Opening your bills</span><span>Ready</span></div>
+  </div>
+</main>
+<div class="reveal" aria-hidden="true"></div>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const out = "cubic-bezier(0.16, 1, 0.3, 1)", inOut = "cubic-bezier(0.65, 0, 0.35, 1)";
+  const accel = "cubic-bezier(0.7, 0, 0.84, 0)", spring = "cubic-bezier(0.34, 1.56, 0.64, 1)";
+  const anim = (el, frames, opts) => el.animate(frames, { fill: "both", easing: out, ...opts });
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const frame = () => new Promise((r) => requestAnimationFrame(r));
+  const mark = $(".mark"), stub = $(".stub"), bill = $(".bill"), chad = $(".chad"), ring = $(".ring"),
+        scan = $(".scan"), word = $(".word"), status = $(".status"), rules = $(".rules");
+  const lines = [...document.querySelectorAll(".status span")];
+  let current = -1, looping = [], finishing = false;
+  window.splashDone = false;
+
+  window.stage = (n) => {
+    if (n === current) return;
+    if (current >= 0) anim(lines[current], [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-8px)" }], { duration: 320 });
+    anim(lines[n], [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 480, delay: current >= 0 ? 140 : 0 });
+    current = n;
+  };
+
+  // Start only once the font is in and a frame is on screen, so the first
+  // second is not spent catching up on frames the window never showed.
+  const ready = document.fonts.ready.then(frame).then(frame).then(() => wait(120));
+  const intro = ready.then(() => {
+    document.body.classList.remove("waiting");
+    if (still) { rules.style.opacity = 1; scan.remove(); return; }
+    anim(rules, [{ opacity: 0 }, { opacity: 1 }], { duration: 1400 });
+    rules.animate([{ transform: "none" }, { transform: "translateY(-32px)" }], { duration: 14000, iterations: Infinity });
+    // 1. A gold line scores the paper where it will be torn.
+    anim(scan, [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }], { duration: 620, easing: inOut });
+    // 2. The bill and its counterfoil unfold from the score; the score becomes the gap between them.
+    const unfold = [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }];
+    anim(stub, unfold, { duration: 820, delay: 600 });
+    anim(bill, unfold, { duration: 820, delay: 600 });
+    anim(chad, unfold, { duration: 820, delay: 600 });
+    anim(scan, [{ opacity: 1 }, { opacity: 0 }], { duration: 360, delay: 740 });
+    // 3. The punch: the mark gives a little, the piece pops out and falls away, the shock rolls outward.
+    anim(mark, [{ transform: "none" }, { transform: "scale(0.955)", offset: 0.3 }, { transform: "none" }], { duration: 560, delay: 1200, easing: inOut });
+    anim(chad, [
+      { transform: "none", opacity: 1 },
+      { transform: "scale(1.14)", opacity: 1, offset: 0.16, easing: "ease-in" },
+      { transform: "translate(12%, 260%) rotate(38deg) scale(0.55)", opacity: 0 },
+    ], { duration: 720, delay: 1260, easing: "linear", fill: "forwards" });
+    anim(ring, [{ transform: "none", opacity: 0 }, { transform: "none", opacity: 0.85, offset: 0.01 },
+                { transform: "scale(3.6)", opacity: 0 }], { duration: 1150, delay: 1320 });
+    // 4. The name rises into place, then the first step under it.
+    anim(word, [{ opacity: 0, transform: "translateY(14px) scale(0.985)" }, { opacity: 1, transform: "none" }], { duration: 900, delay: 1500 });
+    anim(status, [{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 2000 });
+    return wait(2400);
+  });
+  // 5. Until the app is up: the halves tear apart, each with its half of the round mark, and stamp back together.
+  intro.then(() => { if (!finishing && !still) loop(); });
+
+  function loop() {
+    const opts = { duration: 1600, iterations: Infinity };
+    const tear = (d) => [
+      { transform: "none", easing: out }, { transform: `translateX(${d}%)`, offset: 0.3 },
+      { transform: `translateX(${d}%)`, offset: 0.5, easing: spring }, { transform: "none", offset: 0.66 }, { transform: "none" }];
+    looping = [
+      stub.animate(tear(-4.3), opts), bill.animate(tear(4.3), opts),
+      mark.animate([{ transform: "none" }, { transform: "none", offset: 0.62 }, { transform: "scale(0.972)", offset: 0.68 },
+                    { transform: "none", offset: 0.82 }, { transform: "none" }], opts),
+      ring.animate([{ transform: "none", opacity: 0 }, { transform: "none", opacity: 0, offset: 0.64 },
+                    { transform: "none", opacity: 0.45, offset: 0.66 }, { transform: "scale(2.8)", opacity: 0 }], { ...opts, easing: "linear" }),
+    ];
+  }
+
+  window.finish = async () => {
+    if (finishing) return; finishing = true;
+    await intro;
+    stage(2);
+    looping.forEach((a) => a.cancel());
+    const reveal = $(".reveal");
+    if (still) {
+      Object.assign(reveal.style, { inset: 0, borderRadius: 0 });
+      await anim(reveal, [{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 450 }).finished;
+      window.splashDone = true; return;
+    }
+    // The halves lock for good, then the window opens through the round mark.
+    anim(mark, [{ transform: "none" }, { transform: "scale(0.94)", offset: 0.4 }, { transform: "none" }], { duration: 440, easing: spring });
+    await wait(700);
+    const m = mark.getBoundingClientRect(), u = m.width / 256, r = 27.5 * u;
+    const cx = m.left + 104 * u, cy = m.top + 126 * u;
+    const far = Math.hypot(innerWidth, innerHeight) / r + 2;
+    // The reveal is the hole itself: a disc of the app's page, grown in step with the mark.
+    Object.assign(reveal.style, { width: `${2 * r}px`, height: `${2 * r}px`, left: `${cx - r}px`, top: `${cy - r}px`, opacity: 1 });
+    anim(word, [{ opacity: 1 }, { opacity: 0, transform: "translateY(14px)" }], { duration: 320, easing: "ease-in" });
+    anim(status, [{ opacity: 1 }, { opacity: 0, transform: "translateY(14px)" }], { duration: 260, easing: "ease-in" });
+    const dive = { duration: 1100, delay: 140, easing: accel };
+    anim(mark, [{ transform: "none" }, { transform: `scale(${far})` }], dive);
+    anim(rules, [{ opacity: 1 }, { opacity: 0 }], dive);
+    await anim(reveal, [{ transform: "none" }, { transform: `scale(${far})` }], dive).finished;
+    window.splashDone = true;
+  };
+
+  // What it waits on is real: the bridge's own look at Tally and the AI. Then in, through the mark.
+  stage(0);
+  const asked = Promise.race([fetch("/bridge/api/health").catch(() => null), wait(8000)]);
+  Promise.all([intro, asked]).then(async () => {
+    stage(1);
+    await wait(500);
+    await window.finish();
+    location.replace("/bridge/");
+  });
+})();
+</script>
+</body></html>

@@ -1,0 +1,18 @@
+# Text is stored with LF; everything below is binary and never touched, or a
+# checkout on Windows would turn the sample PDFs' line ends into CRLF and break them.
+* text=auto
+*.pdf binary
+*.xlsx binary
+*.xls binary
+*.docx binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.wav binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.onnx binary

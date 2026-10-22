@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Ultimate Accountant</title>
+<link rel="stylesheet" href="/style.css">
+<script type="module" src="/admin.js"></script>
+</head>
+<body>
+<header class="cover">
+  <span class="wordmark">Ultimate Accountant · Admin</span>
+  <nav><a href="/">This device</a><button class="link" id="sign-out">Sign out</button></nav>
+</header>
+<main>
+  <div class="sheet">
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="devices" aria-selected="true">Devices</button>
+      <button role="tab" data-tab="people" aria-selected="false">People</button>
+      <button role="tab" data-tab="audit" aria-selected="false">Audit</button>
+    </div>
+    <div id="msg" aria-live="polite"></div>
+    <section id="devices" role="tabpanel"></section>
+    <section id="people" role="tabpanel" hidden></section>
+    <section id="audit" role="tabpanel" hidden></section>
+  </div>
+</main>
+</body>
+</html>

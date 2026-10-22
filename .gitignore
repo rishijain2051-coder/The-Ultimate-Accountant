@@ -1,0 +1,40 @@
+# Never pushed: real client data, the app's local data, and keys.
+OH/
+data/
+.env
+data-location.txt
+*.db
+*.db-wal
+*.db-shm
+*.pem
+deploy.env
+
+# Build output - packaging/build_release.py makes it again; dist also carries the release read key.
+build/
+dist/
+dist-trial/
+
+# Made again by media/build_video.py.
+media/work/
+media/tutorial.mp4
+
+# The Invoice Bridge's interface: its packages and its build (packaging/build_release.py builds it).
+bridge-ui/node_modules/
+bridge-ui/.next/
+bridge-ui/out/
+
+# The AI is downloaded on request (app/backend/ai.py), never committed.
+ollama/
+ollama-models/
+*.gguf
+
+# Python and tools.
+__pycache__/
+*.pyc
+.venv/
+.impeccable/live/
+
+# The control plane: its Vercel CLI, its link to the Vercel project, and its login
+control-plane/node_modules/
+control-plane/.vercel/
+control-plane/.vercel-cli/
