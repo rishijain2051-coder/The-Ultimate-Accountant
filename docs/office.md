@@ -81,10 +81,11 @@ screen.
 - **Sync now:** reads only what changed in Tally since the last read, using Tally's own
   alter numbers. If nothing changed, nothing is read. Use it any time.
 - **Read everything now:** reads every year from the first day of the books, month by
-  month, and also notices deleted vouchers. It runs by itself every two hours, once one
-  sync has gone through cleanly, and keeps running when the app is closed: the office
-  server adds a Windows task, "Ultimate Accountant Keeper", that starts
-  `Ultimate Accountant.exe --keeper-sync` every two hours. That does nothing while the
+  month, and also notices deleted vouchers. It runs by itself every two hours (an admin
+  can pick 1, 2, 4, 6 or 12 on the Keeper page), once one sync has gone through cleanly,
+  and keeps running when the app is closed: the office server adds a Windows task,
+  "Ultimate Accountant Keeper", that starts `Ultimate Accountant.exe --keeper-sync` as
+  often, and also sends the data keys to newly approved devices. That does nothing while the
   app is open (the app's own timer does it) or once the PC is set back to `--office alone`;
   uninstalling removes the task. Books that didn't change aren't sent again that day; only
   the list of companies says when Tally was last checked.

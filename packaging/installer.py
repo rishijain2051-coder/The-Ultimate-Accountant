@@ -40,7 +40,7 @@ NAME = "Ultimate Accountant"
 APP_EXE = f"{NAME}.exe"
 UNINSTALL_EXE = "Uninstall.exe"
 PUBLISHER = "Ultimate Accountant"
-VERSION = "1.3.6"                                 # the same as app/backend/version.py
+VERSION = "1.3.9"
 REG_KEY = r"Software\Microsoft\Windows\CurrentVersion\Uninstall\UltimateAccountant"
 
 TARGET = Path(os.environ.get("LOCALAPPDATA", Path.home())) / "Programs" / NAME

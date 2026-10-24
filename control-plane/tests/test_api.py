@@ -167,6 +167,8 @@ def test_devices(admin_c: TestClient):
     other_c, _ = sign_in("admin@test.example")
     r = attach(other_c, stolen)
     check("someone else's public keys, without their private key, are refused", r.status_code == 400, r.text)
+    r = attach(other_c, boss_dev)
+    check("a browser holding another person's device keys is told to make new ones (409)", r.status_code == 409, r.text)
 
     r = admin_c.post(f"/api/admin/devices/{boss['id']}/approve", headers=H,
                      json=approval(laptop, boss, "boss@test.example", ["admin"]))
@@ -331,7 +333,7 @@ def test_office_pcs(admin_c: TestClient, laptop: Device):
     me = r.devices[srv.device_id]
     approver = r.devices[me["approved_by_device"]]
     check("... which says which device approved it", approver["sign_pub"] == laptop.sign_pub)
-    okeys.pin_admin(approver["sign_pub"])
+    okeys.pin_admin(approver["sign_pub"], approver["wrap_pub"])
 
     acct = admin_c.post("/api/admin/users", headers=H, json={"email": "acct@test.example", "caps": ["tib", "console"]})
     check("the admin adds the accountant", acct.status_code == 200, acct.text)

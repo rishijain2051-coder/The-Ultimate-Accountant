@@ -47,6 +47,7 @@ HTML = r"""<!doctype html>
   label { display:block; font-size:.8125rem; font-weight:600; color:var(--ink-3); margin:14px 0 4px; }
   input { font:inherit; width:100%; max-width:480px; padding:11px 14px; border-radius:12px; border:1px solid var(--line); background:#fff; color:var(--ink); }
   input:focus { outline:2px solid var(--ink); border-color:transparent; }
+  .meta.warn { color:var(--bad); }
   .msg { margin-top:8px; } .msg.ok { color:var(--ink); } .msg.bad { color:var(--bad); }
   @media (max-width: 700px) { main { padding:20px 16px 48px; } .cover { padding:10px 16px; } h1 { font-size:1.5rem; } }
   @media (prefers-reduced-motion: reduce) { .dot.busy { animation:none; } button:active { transform:none; } }
@@ -64,7 +65,10 @@ HTML = r"""<!doctype html>
     <button id="full">Read everything again</button>
   </div>
   <p class="quiet">Check for changes takes seconds: it asks Tally only for what has changed. Read everything again goes through every year,
-    and notices deleted entries; it also happens by itself every two hours.</p>
+    and notices deleted entries; it also happens by itself, every
+    <select id="every" aria-label="How often"><option value="1">hour</option><option value="2">2 hours</option><option value="4">4 hours</option>
+      <option value="6">6 hours</option><option value="12">12 hours</option></select>, even while the app is closed.</p>
+  <p class="msg" id="enote"></p>
 </div>
 
 <h2>Companies</h2>
@@ -136,7 +140,8 @@ async function load() {
     $("sub").textContent = s.error ? plainError(s.error) : "The last check stopped part-way, perhaps when the app was closed. Check for changes."; }
   else if (!s.finished) { dot.className = "dot warn"; $("headline").textContent = "Not checked yet"; $("sub").textContent = "Choose Check for changes to send the books for the first time."; }
   else { dot.className = "dot"; $("headline").textContent = "Up to date";
-    $("sub").textContent = `Checked ${ago(s.finished)}` + (r.waiting ? ` · ${r.waiting} files still to send` : "") + (r.auto ? " · checks by itself every two hours" : ""); }
+    $("sub").textContent = `Checked ${ago(s.finished)}` + (r.waiting ? ` · ${r.waiting} files still to send` : "") + (r.auto ? ` · checks by itself every ${r.every === 1 ? "hour" : r.every + " hours"}` : ""); }
+  if (document.activeElement !== $("every")) $("every").value = String(r.every);
   $("rows").replaceChildren(...(s.companies || []).map(c => {
     const row = el("div", "row"), main = el("div", "main");
     main.append(el("div", "name", c.name), el("div", "meta", `${(c.vouchers || 0).toLocaleString("en-IN")} transactions · ${c.bills || 0} open bills`));
@@ -162,7 +167,10 @@ async function loadPeople() {
     const row = el("div", "row"), main = el("div", "main");
     main.append(el("div", "name", p.name || p.email), el("div", "meta", p.email));
     for (const t of canWords(p.caps)) main.append(el("div", "meta", t));
-    for (const d of p.devices) main.append(el("div", "meta", `${d.name || "Device"} (${d.status}): ${deviceCan(d.kind, p.caps)}`));
+    for (const d of p.devices) {
+      main.append(el("div", "meta", `${d.name || "Device"} (${d.status}): ${deviceCan(d.kind, p.caps)}`));
+      if (d.key) main.append(el("div", d.key.startsWith("Has") ? "meta" : "meta warn", `Books key: ${d.key}`));
+    }
     if (!p.devices.length) main.append(el("div", "meta", "No devices yet."));
     row.append(main, el("div", "side", p.status === "active" ? "Active" : p.status));
     return row;
@@ -201,6 +209,12 @@ $("bsave").onclick = async () => {
   $("bnote").className = r.ok ? "msg ok" : "msg bad";
   $("bnote").textContent = r.ok ? `Saved. ${r.body.found} backup${r.body.found === 1 ? "" : "s"} there; the next check sends ${r.body.found === 1 ? "it" : "them"}.` : r.body.detail;
   loadBackups();
+};
+$("every").onchange = async () => {
+  const r = await post("/keeper/every", {hours: +$("every").value});
+  $("enote").className = r.ok ? "msg ok" : "msg bad";
+  $("enote").textContent = r.ok ? "Saved." : r.body.detail;
+  load();
 };
 $("rgo").onclick = async () => {
   $("rgo").disabled = true; $("rnote").className = "msg"; $("rnote").textContent = "Downloading and checking…";

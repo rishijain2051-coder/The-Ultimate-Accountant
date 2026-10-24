@@ -103,7 +103,7 @@ def attach(body: Attach, who: Who = Depends(signed_in), c: psycopg.Connection = 
         db.audit(c, "device.attach-refused", user_id=uid, device_id=d["id"], detail={"why": "belongs elsewhere"},
                  ip=who.ip)
         c.commit()
-        raise HTTPException(403, "These keys belong to another device.")
+        raise HTTPException(409, "These keys belong to another device.")   # the browser makes new ones
     if d and d["status"] == "revoked":
         raise HTTPException(410, "This device was revoked. Forget it here and register again.")
     if not d:

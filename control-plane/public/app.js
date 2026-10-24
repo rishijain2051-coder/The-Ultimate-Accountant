@@ -98,9 +98,9 @@ export async function session() {
         method: "POST", body: { sign_pub: k.sign_pub, wrap_pub: k.wrap_pub, signature, name, os, app_version: "web-1" },
       })).device;
     } catch (e) {
-      if (e.status !== 410) throw e;
+      if (e.status !== 410 && e.status !== 409) throw e;
       await purge();
-      await forgetDevice();          // revoked: start again as a new device, waiting for approval
+      await forgetDevice();          // revoked, or another person's keys: start again as a new device, waiting for approval
       return session();
     }
   }

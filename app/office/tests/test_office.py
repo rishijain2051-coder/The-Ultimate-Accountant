@@ -275,11 +275,18 @@ def test_data_keys():
     o.devices[boss_id]["approval"] = o.devices[boss_id]["approval"].replace("books", "books,tib")
     check("an approval changed after it was signed is refused", boss_id not in keys.eligible(o.roster(), trusted, pins))
     o.devices[boss_id]["approval"] = o.devices[boss_id]["approval"].replace("books,tib", "books")
+    viewer_id, _ = o.device(o.person("viewer@x.in", ["books.view", "books.balances"]), approver=laptop, approver_id=laptop_id)
+    check("a person given See the books (a preset, not the old Books tick) may hold the key",
+          viewer_id in keys.eligible(o.roster(), trusted, pins))
+    del o.devices[viewer_id]
 
     cloud = FakeCloud(o)
     res = keys.sync(cloud, o.roster())
     check("the first sync makes key k1 and gives it to every eligible device",
           res["current"] == "k1" and set(res["sent"]["k1"]) == {laptop_id, phone_id, boss_id, buyer_id}, str(res))
+    st = keys.standing(o.roster())
+    check("the Keeper page says who has the key, and why not",
+          st[boss_id] == "Has the key." and "doesn't trust" in st[forged_id] and "doesn't trust" in st[rogue_id], str(st))
     w = next(x for x in o.wrapped if x["device"] == boss_id and x["kid"] == "k1")
     got = keys.unwrap(w, "k1", boss_id, boss_dev.wrap_key)
     check("... and the boss's phone can unwrap it", got == keys.dek("k1"))

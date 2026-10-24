@@ -72,7 +72,10 @@ def people_route() -> None:
     finally:
         roster.set_current(None)
     assert got["known"] and [p["name"] for p in got["people"]] == ["Asha", "Bo"], got
-    assert got["people"][0]["devices"] == [{"name": "Phone", "kind": "viewer", "status": "approved"}], got
+    dev = got["people"][0]["devices"]
+    assert [{k: d[k] for k in ("name", "kind", "status")} for d in dev] == [
+        {"name": "Phone", "kind": "viewer", "status": "approved"}], got
+    assert dev[0]["key"].startswith("No key yet"), got           # its books key, in words
     assert "SECRET" not in str(got)
     from app.keeper.page import HTML
     assert "Who has access" in HTML and "Can sign in, nothing else." in HTML
@@ -374,6 +377,18 @@ def exporters_outstanding() -> None:
     snap["vouchers"][2] = V("R1", "2025-02-01", -800000, "E1", "Agst Ref", 0)
     out = books.open_bills(snap)
     assert [(b["name"], b["amount"]) for b in out] == [("E1", 200000), ("E2", 400000)], out
+
+    # The two-hourly task sends the data keys too, even before the first sync went through
+    from app.keeper import sync
+    from app.office import roster
+    sent, saved = [], (sync.settings.mode, sync.settings.load, sync.Identity.load, roster.refresh, sync.keys.sync)
+    sync.settings.mode, sync.settings.load = (lambda: "server"), (lambda: {"control_plane": "http://cp.test"})
+    sync.Identity.load, roster.refresh = (lambda kind: object()), (lambda cloud: "roster")
+    sync.keys.sync = lambda cloud, r: sent.append(r)
+    try:
+        assert sync.once() == 0 and sent == ["roster"], sent
+    finally:
+        sync.settings.mode, sync.settings.load, sync.Identity.load, roster.refresh, sync.keys.sync = saved
 
 
 if __name__ == "__main__":

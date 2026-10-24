@@ -158,10 +158,19 @@ TASK = "Ultimate Accountant Keeper"
 SIGN_IN_TASK = "Ultimate Accountant Server"
 
 
+HOURS = (1, 2, 4, 6, 12)                 # what an admin can pick for the Keeper's check; 2 unless picked
+
+
+def every_hours() -> int:
+    h = settings.load().get("keeper_every_hours")
+    return h if h in HOURS else 2
+
+
 def schedule(exe: str) -> None:
-    """Windows starts `exe --keeper-sync` every two hours, so the Keeper's books go out while the app is
-    closed too. Made again at every start of the office server: /F replaces the old one."""
-    subprocess.run(["schtasks", "/Create", "/F", "/TN", TASK, "/SC", "HOURLY", "/MO", "2",
+    """Windows starts `exe --keeper-sync` every few hours (every_hours), so the Keeper's books go out while
+    the app is closed too. Made again at every start of the office server and when an admin changes the
+    hours: /F replaces the old one."""
+    subprocess.run(["schtasks", "/Create", "/F", "/TN", TASK, "/SC", "HOURLY", "/MO", str(every_hours()),
                     "/TR", f'"{exe}" --keeper-sync'], capture_output=True, check=False,
                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     # and at every sign-in, the office server itself with no window. The user's own Run list:

@@ -26,11 +26,10 @@ from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 
 from app.keeper import backups, books, notices, ukeep
-from app.office import keys, settings
+from app.office import keys, settings, setup
 from app.office.cloud import Cloud
 from app.office.identity import Identity
 
-EVERY = 2 * 3600
 _now = threading.Event()          # set by Sync now: the quick read
 _full = threading.Event()         # set by Read everything now
 _busy = threading.Lock()
@@ -158,7 +157,7 @@ def run(reader: books.Reader, cloud: Cloud | None, today: dt.date | None = None,
 
 
 def background(stop: threading.Event) -> None:
-    """On the office server. Sync now: the quick read. Read everything now, and every two hours
+    """On the office server. Sync now: the quick read. Read everything now, and every few hours (an admin's pick)
     once an admin's sync has gone through cleanly: the full read. Tally is the one on this PC."""
     ident = Identity.load("office_server")
     if not ident:
@@ -181,25 +180,33 @@ def background(stop: threading.Event) -> None:
                 settings.save(s)
             if start:
                 first = time.time() + 600 if done["error"] else None
-        timer = False
-        for _ in range(EVERY):
-            if stop.is_set() or _now.is_set() or _full.is_set() or (first is not None and time.time() >= first):
+        timer, since = False, time.time()
+        while not (stop.is_set() or _now.is_set() or _full.is_set() or (first is not None and time.time() >= first)):
+            if time.time() - since >= setup.every_hours() * 3600:     # read each round: an admin may change it
+                timer = bool(settings.load().get("keeper_auto"))
                 break
             stop.wait(1)
-        else:
-            timer = bool(settings.load().get("keeper_auto"))
 
 
 def once() -> int:
-    """--keeper-sync, from the task: the full read, the timer's, once an admin's sync went
-    through cleanly. The launcher has already left it alone while the app itself is open."""
-    if settings.mode() != "server" or not settings.load().get("keeper_auto"):
+    """--keeper-sync, from the task: the data keys for newly approved devices, then the full
+    read, the timer's, once an admin's sync went through cleanly. The launcher has already
+    left it alone while the app itself is open."""
+    if settings.mode() != "server":
         return 0
     ident = Identity.load("office_server")
     if not ident:
         return 0
+    cloud = Cloud(ident)
+    try:                                      # a phone approved while the app is closed gets its key
+        from app.office import roster
+        keys.sync(cloud, roster.refresh(cloud))
+    except Exception as exc:  # noqa: BLE001 - the next run, or the open app, tries again
+        print(f"office: {type(exc).__name__}: {exc}", flush=True)
+    if not settings.load().get("keeper_auto"):
+        return 0
     with _busy:
-        done = run(books.Reader(pause=0.2), Cloud(ident), full=True)
+        done = run(books.Reader(pause=0.2), cloud, full=True)
     return 1 if done["error"] else 0
 
 
@@ -210,6 +217,23 @@ router = APIRouter()
 def sync_now(full: bool = False):
     (_full if full else _now).set()
     return {"ok": True}
+
+
+class Every(BaseModel):
+    hours: int
+
+
+@router.post("/keeper/every")
+def set_every(body: Every):
+    if body.hours not in setup.HOURS:
+        raise HTTPException(400, "Pick 1, 2, 4, 6 or 12 hours.")
+    s = settings.load()
+    s["keeper_every_hours"] = body.hours
+    settings.save(s)
+    import sys
+    if getattr(sys, "frozen", False):          # the Windows task too; never a dev run's python.exe
+        setup.schedule(sys.executable)
+    return {"ok": True, "hours": body.hours}
 
 
 class Folder(BaseModel):
@@ -252,20 +276,20 @@ def restore(body: Restore):
 def status():
     return {"status": settings.read_json(_dir() / "status.json"), "busy": _busy.locked(),
             "waiting": sum(1 for _ in (_dir() / "outbox").rglob("*.ukeep")),
-            "auto": bool(settings.load().get("keeper_auto"))}
+            "auto": bool(settings.load().get("keeper_auto")), "every": setup.every_hours()}
 
 
 @router.get("/keeper/people")
 def people():
-    """Who has access, from the newest roster. Names, status, access and device kinds only:
-    never keys, fingerprints or approvals."""
+    """Who has access, from the newest roster. Names, status, access, device kinds and whether each
+    holds the books key (in words): never keys, fingerprints or approvals."""
     from app.office import roster
     r = roster.current()
     if r is None:
         return {"people": [], "known": False}
-    out = []
+    out, key = [], keys.standing(r)
     for u in r.users.values():
-        devs = [{"name": d.get("name") or "", "kind": d.get("kind"), "status": d.get("status")}
+        devs = [{"name": d.get("name") or "", "kind": d.get("kind"), "status": d.get("status"), "key": key.get(d["id"])}
                 for d in r.devices.values() if d.get("user_id") == u["id"]]
         out.append({"name": u.get("name") or "", "email": u.get("email") or "", "status": u.get("status"),
                     "caps": [str(c) for c in u.get("caps") or []], "devices": devs})

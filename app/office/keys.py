@@ -5,7 +5,7 @@ only wrapped for one device:
     ECDH(fresh P-256 key, device's wrap_pub) -> HKDF-SHA256(salt "", info) -> AES-256-GCM(DEK, aad info)
     info = "keeper-dek:<kid>:<device id>"
 A device gets it only if the control plane's roster shows it approved, its person active
-with the `books` tick, and its approval signed by an admin device this office server
+with See the books (`books.view`, or the old `books`), and its approval signed by an admin device this office server
 trusts: one pinned here when it was set up, or one approved, as an admin, by a trusted one.
 The control plane can say anything it likes; it can't forge those signatures.
 
@@ -130,7 +130,7 @@ def _signed_for(r: Roster, d: dict, trusted: set[str], cap: str) -> bool:
     return bool(parts and approver and owner and approver["sign_pub"] in trusted
                 and parts["device"] == d["id"] and parts["sign_pub"] == d["sign_pub"]
                 and parts["wrap_pub"] == d["wrap_pub"] and parts["email"] == owner["email"]
-                and cap in parts["caps"] and verify(approver["sign_pub"], d["approval"], d.get("approval_sig") or ""))
+                and caps.has(parts["caps"], cap) and verify(approver["sign_pub"], d["approval"], d.get("approval_sig") or ""))
 
 
 def trusted_admin_keys(r: Roster, pinned: list[dict]) -> set[str]:
@@ -170,8 +170,36 @@ def eligible(r: Roster, trusted: set[str], pinned: list[dict] = ()) -> dict[str,
                 or not caps.has(owner["caps"], "books.view")):
             continue
         if ((d["sign_pub"] in trusted and pins.get(d["sign_pub"], d["wrap_pub"]) == d["wrap_pub"])
-                or _signed_for(r, d, trusted, "books")):
+                or _signed_for(r, d, trusted, "books.view")):
             out[d["id"]] = d
+    return out
+
+
+def standing(r: Roster) -> dict[str, str]:
+    """Each phone or laptop's key status, in words, for the Keeper page: why it has the key or not."""
+    kr = ring()
+    if not kr["pinned_admins"]:
+        return {d["id"]: "No key yet: no admin device is pinned on this office server." for d in r.devices.values()
+                if d["kind"] == "viewer"}
+    ok = eligible(r, trusted_admin_keys(r, kr["pinned_admins"]), kr["pinned_admins"])
+    held = {(w["device"], w["kid"]) for w in r.claims.get("wrapped", [])}
+    out = {}
+    for d in r.devices.values():
+        owner = r.users.get(d["user_id"]) or {}
+        if d["kind"] != "viewer":
+            continue
+        if d["id"] in ok:
+            out[d["id"]] = ("Has the key." if (d["id"], kr["current"]) in held
+                            else "Gets the key within a minute, while the app is open here.")
+        elif d["status"] != "approved":
+            out[d["id"]] = "No key: not approved yet."
+        elif owner.get("status") != "active":
+            out[d["id"]] = "No key: this person is turned off."
+        elif not caps.has(owner.get("caps"), "books.view"):
+            out[d["id"]] = "No key: no See the books access."
+        else:
+            out[d["id"]] = ("No key: approved by a device this office server doesn't trust. "
+                            "Approve it again from the first admin device.")
     return out
 
 
