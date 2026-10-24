@@ -36,6 +36,11 @@ body.books { scrollbar-color: var(--line-2) transparent; }
 .bell[aria-current=true] { color: var(--ink); background: var(--soft); }
 .bell[hidden] { display: none; }
 .brand { min-height: 44px; }
+.back { flex: none; width: 44px; height: 44px; display: grid; place-items: center; margin: 0 -8px 0 -10px; padding: 0;
+  border: 0; border-radius: 50%; background: none; color: var(--ink); cursor: pointer; }
+.back svg { width: 24px; height: 24px; }
+.back:active { background: var(--soft); }
+.back[hidden] { display: none; }
 
 /* --- frame: phone = one column + tab bar; desktop = sidebar, content, Tally's button bar --- */
 .frame { max-width: 1280px; margin: 0 auto; }
@@ -138,10 +143,18 @@ details.more { margin: 0 0 12px; }
 details.more summary { cursor: pointer; font-weight: 600; font-size: .9375rem; list-style: none; display: inline-flex; gap: 6px; align-items: center;
   min-height: 40px; box-sizing: border-box; padding: 8px 15px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
 details.more summary::-webkit-details-marker { display: none; }
-.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; padding: 14px;
+/* Party across the top, then amounts and dates in pairs; inputs never wider than their column. */
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; padding: 14px;
   background: var(--card); border-radius: var(--radius); border: 1px solid var(--line); }
-.fields label { display: grid; gap: 4px; font-size: .8125rem; color: var(--ink-3); font-weight: 500; }
-.fields .acts { grid-column: 1 / -1; display: flex; gap: 10px; }
+.fields label { display: grid; gap: 4px; min-width: 0; font-size: .8125rem; color: var(--ink-3); font-weight: 500; }
+.fields .wide, .fields .acts { grid-column: 1 / -1; }
+.fields .acts { display: flex; gap: 10px; }
+.fields .acts .button { flex: 1; }
+.fields input { display: block; box-sizing: border-box; height: 46px; }
+@supports (-webkit-touch-callout: none) {      /* iPhone: a date field keeps its own width unless told not to */
+  .fields input[type=date] { -webkit-appearance: none; }
+  .fields input::-webkit-date-and-time-value { text-align: left; }
+}
 .books .button { display: inline-flex; align-items: center; justify-content: center; font: inherit; font-weight: 600; padding: 11px 18px; min-height: 44px; box-sizing: border-box;
   border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; text-decoration: none; }
 .books .button.primary { background: var(--ink); border-color: var(--ink); color: #fff; }

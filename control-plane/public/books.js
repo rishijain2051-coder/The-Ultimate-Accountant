@@ -425,12 +425,15 @@ function activity(_, f) {
     inUse("activity", f, [["item", (x) => `Item: ${x}`], ["party", (x) => `Party: ${x}`], ["min", (x) => `At least ₹${x}`], ["max", (x) => `At most ₹${x}`]]),
     el("details", { class: "more" }, el("summary", {}, "More filters"),
       el("form", { class: "fields", onsubmit: (e) => { e.preventDefault(); location.hash = hashWith("activity", f, { ...Object.fromEntries(new FormData(e.target)), n: "" }); } },
-        el("label", { class: "label" }, "Party or account", el("input", { type: "text", name: "party", value: f.party || "" })),
+        el("label", { class: "label wide" }, "Party or account", el("input", { type: "text", name: "party", value: f.party || "",
+          list: "parties", autocomplete: "off", placeholder: "Start typing a name" })),
+        el("datalist", { id: "parties" }, ...books.ledgers.map((l) => el("option", { value: l.name }))),
         el("label", { class: "label" }, "At least ₹", el("input", { type: "number", name: "min", inputmode: "decimal", step: "0.01", value: f.min || "" })),
         el("label", { class: "label" }, "At most ₹", el("input", { type: "number", name: "max", inputmode: "decimal", step: "0.01", value: f.max || "" })),
         el("label", { class: "label" }, "From", el("input", { type: "date", name: "from", value: f.from || "" })),
         el("label", { class: "label" }, "To", el("input", { type: "date", name: "to", value: f.to || "" })),
-        el("div", { class: "acts" }, el("button", { class: "button primary" }, "Show")))),
+        el("div", { class: "acts" }, el("button", { class: "button primary" }, "Show"),
+          el("a", { class: "button", href: `#${hashWith("activity", f, { party: "", min: "", max: "", from: "", to: "", n: "" })}` }, "Clear")))),
     entries(shown.map((v) => txEntry(v, f.q)), Object.keys(f).length ? "Nothing matches. Take a filter off, or pick All time." : "No entries yet."),
     more("activity", f, shown.length, vs.length)];
 }
@@ -681,6 +684,7 @@ function onKey(e) {
 // link starts the screen it opens at the top.
 const scrolled = new Map();
 let tapped = false;
+let moved = false;                  // gone somewhere inside Keeper, so Back has a page of ours to return to
 function route(keepScroll = false) {
   if (!books) return;
   const [path, query = ""] = location.hash.slice(1).split("?");
@@ -691,6 +695,8 @@ function route(keepScroll = false) {
   const tab = SCREENS[name] ? PARENT[name] || name : "summary";
   for (const a of $("tabs").children) a.setAttribute("aria-current", a.dataset.to === tab ? "true" : "false");
   $("bell")?.setAttribute("aria-current", tab === "alerts" ? "true" : "false");
+  $("back").hidden = !PARENT[name] && !query;      // a detail screen, or a filtered list
+  $("back").onclick = () => (moved ? history.back() : (location.hash = PARENT[name] || name));
   const f = Object.fromEntries(new URLSearchParams(query));
   const caret = document.activeElement?.closest?.(".find") ? document.activeElement.selectionStart : null;
   const view = $("view");
@@ -811,7 +817,7 @@ if (typeof document !== "undefined" && $("tabs")) {
   tabs();
   keysPanel();
   addEventListener("keydown", onKey);
-  addEventListener("hashchange", () => route());
+  addEventListener("hashchange", () => { moved = true; route(); });
   addEventListener("click", (e) => { if (e.target.closest?.("a[href^='#']")) tapped = true; }, true);
   let st = null;
   addEventListener("scroll", () => { clearTimeout(st); st = setTimeout(() => scrolled.set(location.hash, scrollY), 120); }, { passive: true });

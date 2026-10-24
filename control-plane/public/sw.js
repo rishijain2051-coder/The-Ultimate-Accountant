@@ -3,7 +3,7 @@
 // with the books' data key; they are opened here with this device's copy of it, in the same
 // IndexedDB the pages use, so the control plane never sees what they say.
 
-const SHELL = "ua-shell-v6";
+const SHELL = "ua-shell-v7";
 // Every file the books page loads or imports: one missing here would come from a different deploy.
 const PAGES = ["/books", "/books.js", "/books.css", "/app.js", "/caps.js", "/keeper-crypto.js", "/manifest.json", "/favicon.svg",
   "/favicon.ico", "/apple-touch-icon.png", "/icon-192.png", "/"];
